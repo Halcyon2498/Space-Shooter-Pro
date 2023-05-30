@@ -10,7 +10,7 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.95f, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y + 1.05f, 0);
     }
 
     // Update is called once per frame
@@ -20,8 +20,9 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y >= 7.1f)
         {
-            Object.Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
     }
+
 }
