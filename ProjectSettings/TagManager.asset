@@ -6,10 +6,13 @@ TagManager:
   tags:
   - Enemy
   - Laser
+<<<<<<< HEAD
   - Powerup
   - Shield
   - Asteroid
   - EnemyLaser
+=======
+>>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
   layers:
   - Default
   - TransparentFX

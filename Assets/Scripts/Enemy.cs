@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
+<<<<<<< HEAD
     private float _enemySpeed = 2.0f;
     [SerializeField]
     private Player _player;
@@ -51,11 +52,20 @@ public class Enemy : MonoBehaviour
 
         _enemySpeed = 2.0f;
 
+=======
+    private float _enemySpeed = 4.0f;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        transform.position = new Vector3(0, 9.5f, 0);   
+>>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
     }
 
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
  
         CalculateMovement();
 
@@ -76,10 +86,18 @@ public class Enemy : MonoBehaviour
         if (transform.position.y <= -7.1f)
         {
             float randomX = Random.Range(-9.5f, 9.5f);
+=======
+        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime); 
+
+        if (transform.position.y <= -7.1f)
+        {
+            float randomX = Random.Range(-10.5f, 10.5f);
+>>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
             transform.position = new Vector3(randomX, 9.5f, 0);
         }
     }
 
+<<<<<<< HEAD
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -94,11 +112,22 @@ public class Enemy : MonoBehaviour
             }            
             EnemyDestroySequence();
             
+=======
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.tag == "Player")
+        {
+            Player player = other.transform.GetComponent<Player>();
+            other.transform.GetComponent<Player>().Damage();
+            Destroy(this.gameObject);
+>>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
         }
 
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
+<<<<<<< HEAD
             if (_player != null)
             {
                 _player.addScore(10);
@@ -119,4 +148,10 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject, 2.5f);
     }
  
+=======
+            Destroy(gameObject);
+        }
+    }
+
+>>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
 }
