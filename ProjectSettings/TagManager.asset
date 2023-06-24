@@ -3,16 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Enemy
-  - Laser
-<<<<<<< HEAD
-  - Powerup
-  - Shield
-  - Asteroid
-  - EnemyLaser
-=======
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -22,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - Post_Processing
+  - 
   - 
   - 
   - 
@@ -49,10 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Background
-    uniqueID: 2620407559
-    locked: 0
-  - name: Foreground
-    uniqueID: 3869512323
     locked: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-<<<<<<< HEAD
     private float _enemySpeed = 2.0f;
     [SerializeField]
     private Player _player;
@@ -33,40 +32,31 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
 
 
-        if(_player == null)
+        if (_player == null)
         {
             Debug.Log("Player is null");
         }
 
         _animator = GetComponent<Animator>();
-        if(_animator == null)
+        if (_animator == null)
         {
             Debug.Log("Animator is null");
         }
 
         _boxCollider2D = GetComponent<Collider2D>();
-        if(_boxCollider2D == null)
+        if (_boxCollider2D == null)
         {
             Debug.Log("Box Collider is null");
         }
 
         _enemySpeed = 2.0f;
 
-=======
-    private float _enemySpeed = 4.0f;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        transform.position = new Vector3(0, 9.5f, 0);   
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
     }
 
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
- 
+
         CalculateMovement();
 
         if (Time.time > _canFire)
@@ -86,18 +76,10 @@ public class Enemy : MonoBehaviour
         if (transform.position.y <= -7.1f)
         {
             float randomX = Random.Range(-9.5f, 9.5f);
-=======
-        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime); 
-
-        if (transform.position.y <= -7.1f)
-        {
-            float randomX = Random.Range(-10.5f, 10.5f);
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
             transform.position = new Vector3(randomX, 9.5f, 0);
         }
     }
 
-<<<<<<< HEAD
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -109,31 +91,10 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
-            }            
+            }
             EnemyDestroySequence();
-            
-=======
-    private void OnTriggerEnter2D(Collider2D other)
-    {
 
-        if (other.tag == "Player")
-        {
-            Player player = other.transform.GetComponent<Player>();
-            other.transform.GetComponent<Player>().Damage();
-            Destroy(this.gameObject);
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
-        }
 
-        if (other.tag == "Laser")
-        {
-            Destroy(other.gameObject);
-<<<<<<< HEAD
-            if (_player != null)
-            {
-                _player.addScore(10);
-            }            
-            EnemyDestroySequence();
-           
 
         }
 
@@ -143,15 +104,11 @@ public class Enemy : MonoBehaviour
     {
         Destroy(this._boxCollider2D);
         _audioSource.PlayOneShot(_explodeSound, 1);
-        _enemySpeed = 0f; 
-        _animator.SetTrigger("OnEnemyDown");      
+        _enemySpeed = 0f;
+        _animator.SetTrigger("OnEnemyDown");
         Destroy(this.gameObject, 2.5f);
     }
- 
-=======
-            Destroy(gameObject);
-        }
-    }
 
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
+
+
 }

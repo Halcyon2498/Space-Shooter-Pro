@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
@@ -14,14 +11,13 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawn = false;
-<<<<<<< HEAD
     [SerializeField]
     private GameObject[] powerups;
 
 
     void Start()
     {
- 
+
     }
 
     public void StartSpawning()
@@ -39,38 +35,13 @@ public class SpawnManager : MonoBehaviour
             Vector3 postLoc = new Vector3(Random.Range(-9.5f, 9.5f), 9f, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f); 
-=======
-   
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(SpawnRoutine());
-    }
+            yield return new WaitForSeconds(1.5f);
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    IEnumerator SpawnRoutine()
-    {
-        //while loop
-        //instantiate enemyprefab
-        //yield wait for 4 seconds
-        while (_stopSpawn == false)
-        {
-            Vector3 postLoc = new Vector3(Random.Range(-9.5f, 9.5f), 9.5f, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(3.0f); 
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
         }
 
     }
 
-<<<<<<< HEAD
+
     IEnumerator SpawnPowerUpRoutine()
     {
         yield return new WaitForSeconds(3.0f);
@@ -83,8 +54,7 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(4, 8));
         }
     }
-=======
->>>>>>> 56686b94c8f9145068e5aca2326c6b35c1f53afe
+
     public void OnPlayerDeath()
     {
         _stopSpawn = true;
