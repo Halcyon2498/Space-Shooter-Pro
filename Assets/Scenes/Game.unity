@@ -2014,10 +2014,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5243672243251097941, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243672243251097941, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.8588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243672243251097941, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243672243251097941, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.8588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243672243251097941, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7962588086447316524, guid: 282470305e853224080c4dc0702fab1e,
         type: 3}
       propertyPath: m_Name
       value: ShieldVisualizer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7962588086447316524, guid: 282470305e853224080c4dc0702fab1e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 282470305e853224080c4dc0702fab1e, type: 3}

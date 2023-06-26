@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private AudioClip _powerupSound;
     [SerializeField]
     private AudioClip _explosionSound;
+    private int _shieldHits = 3;
+    private SpriteRenderer _spriteRenderer;
 
 
 
@@ -58,7 +60,12 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _laserSound;
+        _spriteRenderer = transform.Find("ShieldVisualizer").GetComponent<SpriteRenderer>();
 
+        if (_spriteRenderer == null)
+        {
+            Debug.LogError("The Sprite Render is NULL");
+        }
 
         if (_spawnManager == null)
         {
@@ -83,8 +90,6 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // alt way transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
-        // Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         if (_speedBoost == true)
         {
             transform.Translate(Vector3.right * horizontalInput * _speed * _speedMultiplier * Time.deltaTime);
@@ -96,8 +101,6 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
         }
 
-
-        // alt transform.position - new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 5.9f, -3.9f), 0)
 
         if (transform.position.y >= 5.9f)
         {
@@ -116,6 +119,16 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.25f, transform.position.y, 0);
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _speed = 6.5f;
+        }
+        else
+        {
+            _speed = 3.5f;
+        }
+
     }
 
     void FireLaser()
@@ -141,9 +154,25 @@ public class Player : MonoBehaviour
 
         if (_shield == true)
         {
-            _shield = false;
-            _shieldVisualizer.SetActive(false);
-            return;
+            _shieldHits--;
+            
+            if (_shieldHits == 2)
+            {
+           
+                _spriteRenderer.color = new Color(255f, 0f, 255f, 255f);
+                
+            }
+            if (_shieldHits == 1)
+            {
+              
+                _spriteRenderer.color = new Color(255f, 0f, 0f, 255f);
+              
+            }
+            if (_shieldHits < 1)
+            {
+                _shieldVisualizer.SetActive(false);
+                _shield = false;
+            }
         }
         else
         {
