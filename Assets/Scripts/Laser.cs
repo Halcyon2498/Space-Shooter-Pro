@@ -10,7 +10,7 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1.05f, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     // Update is called once per frame

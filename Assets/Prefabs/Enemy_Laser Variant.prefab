@@ -85,8 +85,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: EnemyLaser
       objectReference: {fileID: 0}
+    - target: {fileID: 7979059977902426414, guid: eb82f7c42abb5554ea228c505918db54,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5469732739420165051, guid: eb82f7c42abb5554ea228c505918db54, type: 3}
+    - {fileID: 6061251435656961306, guid: eb82f7c42abb5554ea228c505918db54, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eb82f7c42abb5554ea228c505918db54, type: 3}
 --- !u!1 &2387812731862623184 stripped
 GameObject:

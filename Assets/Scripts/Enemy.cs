@@ -94,7 +94,13 @@ public class Enemy : MonoBehaviour
             }
             EnemyDestroySequence();
 
+        }
 
+        if (other.tag == "Laser")
+        {
+            Destroy(other.gameObject);
+            _player.addScore(10);
+            EnemyDestroySequence();
 
         }
 
