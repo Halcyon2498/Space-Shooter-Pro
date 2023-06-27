@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
             Debug.Log("Animator is null");
         }
 
-        _boxCollider2D = GetComponent<Collider2D>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
         if (_boxCollider2D == null)
         {
             Debug.Log("Box Collider is null");

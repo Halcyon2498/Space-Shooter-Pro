@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private AudioClip _powerupSound;
     [SerializeField]
     private AudioClip _explosionSound;
+    [SerializeField]
+    private int _ammoCount = 15;
     private int _shieldHits = 3;
     private SpriteRenderer _spriteRenderer;
 
@@ -135,18 +137,24 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
-        if (_triple == true)
+        if (_ammoCount > 0)
         {
 
-            Instantiate(_triplePrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
+            if (_triple == true)
+            {
 
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
+                Instantiate(_triplePrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
+            }
+            _ammoCount--;
+            _uiManager.UpdateAmmo(_ammoCount);
+            _audioSource.PlayOneShot(_laserSound, 1);
         }
 
-        _audioSource.PlayOneShot(_laserSound, 1);
     }
 
     public void Damage()
@@ -245,9 +253,38 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _shield = true;
+        _shieldHits = 3;
+        _spriteRenderer.color = new Color(200f, 200f, 200f, 255f);
         _audioSource.clip = _powerupSound;
         _audioSource.PlayOneShot(_powerupSound, 1);
         _shieldVisualizer.SetActive(true);
+    }
+
+    public void AmmoActive()
+    {
+        _ammoCount = 15;
+        _uiManager.UpdateAmmo(_ammoCount);
+        _audioSource.clip = _powerupSound;
+        _audioSource.PlayOneShot(_powerupSound, 1);
+    }
+
+    public void LivesActive()
+    {
+        if (_lives < 3)
+        {
+            _lives += 1;
+            if (_lives == 2)
+            {
+                _rightEngine.SetActive(false);
+            }
+            else if (_lives == 3)
+            {
+                _leftEngine.SetActive(false);
+            }
+            _uiManager.UpdateLives(_lives);
+        }
+        _audioSource.clip = _powerupSound;
+        _audioSource.PlayOneShot(_powerupSound, 1);
     }
 
     public void addScore(int addPoints)
