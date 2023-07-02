@@ -7,6 +7,7 @@ public class EnemyLaser : MonoBehaviour
     [SerializeField]
     private float _laserspeed = 10.0f;
 
+
     void Update()
     {
         transform.Translate(Vector3.down * _laserspeed * Time.deltaTime);

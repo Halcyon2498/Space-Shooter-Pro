@@ -58,6 +58,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.LivesActive();
                         break;
+                    case 5:
+                        player.MegaLaserActive();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

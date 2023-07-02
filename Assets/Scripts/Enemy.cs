@@ -104,6 +104,12 @@ public class Enemy : MonoBehaviour
 
         }
 
+        if (other.tag == "MegaLaser")
+        {
+            _player.addScore(10);
+            EnemyDestroySequence();
+        }
+
     }
 
     private void EnemyDestroySequence()

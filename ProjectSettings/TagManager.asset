@@ -9,6 +9,7 @@ TagManager:
   - Powerup
   - EnemyLaser
   - Asteroid
+  - MegaLaser
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f;
+    private float _speed = 4f;
     private float _speedMultiplier = 2.0f;
     [SerializeField]
     private GameObject _laserPrefab;
@@ -48,6 +48,14 @@ public class Player : MonoBehaviour
     private int _ammoCount = 15;
     private int _shieldHits = 3;
     private SpriteRenderer _spriteRenderer;
+    [SerializeField]
+    private GameObject _megalaserPrefab;
+    [SerializeField]
+    private Slider _thrusterGauge;
+    [SerializeField]
+    private float _maxEnergy = 100f;
+    private bool _thrustersActive = false;
+    private CameraShake _damageShake;
 
 
 
@@ -58,11 +66,14 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
+        _megalaserPrefab.SetActive(false);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _laserSound;
         _spriteRenderer = transform.Find("ShieldVisualizer").GetComponent<SpriteRenderer>();
+        _thrusterGauge = GameObject.Find("Canvas").GetComponentInChildren<Slider>();
+        _damageShake = GameObject.Find("Camera_Container").GetComponent<CameraShake>();
 
         if (_spriteRenderer == null)
         {
@@ -72,6 +83,15 @@ public class Player : MonoBehaviour
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL");
+        }
+        
+        if (_thrusterGauge == null)
+        {
+            Debug.LogError("The Slider is NULL");
+        }
+        if (_damageShake == null)
+        {
+            Debug.LogError("The Camera is NULL");
         }
     }
 
@@ -84,6 +104,7 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
 
 
     }
@@ -124,14 +145,58 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _speed = 6.5f;
+            isThrusting();
+            StartCoroutine(ThrustRoutine()); 
+            if (_maxEnergy <= 0)
+            {
+                _speed = 4f;
+            }
+
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _speed = 3.5f;
+            stopThrusting();
+            StartCoroutine(ThrustRegenRoutine());
+            
         }
 
+        _thrusterGauge.value = _maxEnergy;
+
     }
+
+
+    IEnumerator ThrustRoutine()
+    {
+        while (_thrustersActive == true && _maxEnergy >= 0)
+        {
+            _maxEnergy -= 0.1f;          
+            yield return new WaitForSeconds(2.0f);
+        }
+    }
+
+    IEnumerator ThrustRegenRoutine()
+    {
+        yield return new WaitForSeconds(1.2f);
+        while (_thrustersActive == false && _maxEnergy <= 100)
+        {
+            _maxEnergy += 2.5f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+    }    
+
+    private void isThrusting()
+    {
+        _thrustersActive = true;
+        _speed = 7f;
+    }
+
+    private void stopThrusting()
+    {
+        _thrustersActive = false;
+        _speed = 4f;
+    }
+
 
     void FireLaser()
     {
@@ -139,25 +204,23 @@ public class Player : MonoBehaviour
 
         if (_ammoCount > 0)
         {
-
-            if (_triple == true)
-            {
-
-                Instantiate(_triplePrefab, transform.position, Quaternion.identity);
-            }
-            else
-            {
-
-                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
-            }
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
             _ammoCount--;
             _uiManager.UpdateAmmo(_ammoCount);
             _audioSource.PlayOneShot(_laserSound, 1);
         }
 
+        if (_triple == true)
+        {
+            Instantiate(_triplePrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_laserSound, 1);
+        }
+
+       
     }
 
-    public void Damage()
+
+public void Damage()
     {
 
         if (_shield == true)
@@ -185,6 +248,7 @@ public class Player : MonoBehaviour
         else
         {
             _lives--;
+            _damageShake.ShakeCamera();
             _uiManager.UpdateLives(_lives);
         }
 
@@ -285,6 +349,21 @@ public class Player : MonoBehaviour
         }
         _audioSource.clip = _powerupSound;
         _audioSource.PlayOneShot(_powerupSound, 1);
+    }
+
+    public void MegaLaserActive()
+    {
+        StartCoroutine(MegaCooldown());
+        _audioSource.clip = _powerupSound;
+        _audioSource.PlayOneShot(_powerupSound, 1);
+        return;
+    }
+
+    IEnumerator MegaCooldown()
+    {
+        _megalaserPrefab.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
+        _megalaserPrefab.SetActive(false);
     }
 
     public void addScore(int addPoints)

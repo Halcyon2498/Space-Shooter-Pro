@@ -12,7 +12,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private bool _stopSpawn = false;
     [SerializeField]
-    private GameObject[] powerups;
+    private GameObject[] _commonPowerups;
+    [SerializeField]
+    private GameObject[] _rarePowerups;
 
 
     void Start()
@@ -49,8 +51,24 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawn == false)
         {
             Vector3 powerLoc = new Vector3(Random.Range(-9.5f, 9.5f), 9.5f, 0);
-            int randomPowerUp = Random.Range(0, 5);
-            Instantiate(powerups[randomPowerUp], powerLoc, Quaternion.identity);
+            int randomNumber = Random.Range(0, 9);
+ 
+            if (randomNumber >= 0 && randomNumber <= 5)
+            {
+                int randomCommon = Random.Range(0, 4);
+                GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
+            }
+            else if (randomNumber >= 6 && randomNumber <= 9)
+            {
+                int randomRare = Random.Range(0, 2);
+                GameObject _rarePowerup = Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogError("No Valid Spawn");
+            }
+            
+           
             yield return new WaitForSeconds(Random.Range(3, 7));
         }
     }
