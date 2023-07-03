@@ -220,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
+  m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &45264459
@@ -396,10 +396,10 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 2034853808}
   m_HandleRect: {fileID: 0}
-  m_Direction: 0
+  m_Direction: 1
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
@@ -413,7 +413,7 @@ RectTransform:
   m_GameObject: {fileID: 172936880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3735514, y: 1.3735514, z: 1.3735514}
+  m_LocalScale: {x: -17.035093, y: 0.8001192, z: 1.1229744}
   m_Children:
   - {fileID: 1939505873}
   - {fileID: 43593672}
@@ -422,8 +422,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 113, y: 18}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 190.5, y: 16.3}
+  m_SizeDelta: {x: 160.49, y: 4.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &307109827
 GameObject:
@@ -982,6 +982,7 @@ GameObject:
   - component: {fileID: 754520050}
   - component: {fileID: 753214319}
   - component: {fileID: 754520056}
+  - component: {fileID: 754520057}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1026,6 +1027,7 @@ MonoBehaviour:
   _megalaserPrefab: {fileID: 633457775}
   _thrusterGauge: {fileID: 172936881}
   _maxEnergy: 100
+  _thrusters: {fileID: 2025937863}
 --- !u!212 &754520051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1288,6 +1290,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &754520057
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754520049}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0165692b62e940f47a50d83606021bfe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &852645526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,6 +1402,8 @@ MonoBehaviour:
   _gameOverText: {fileID: 1838833432}
   _restartText: {fileID: 1417900128}
   _ammoCounter: {fileID: 1933893482}
+  _thrusterGauge: {fileID: 172936881}
+  _thrusterColor: {fileID: 2034853809}
 --- !u!1 &933663293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,7 +2278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 3.4999995, y: 0}
+  m_AnchoredPosition: {x: -3.4999995, y: 0}
   m_SizeDelta: {x: -7.000001, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1939505874
@@ -2272,7 +2295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2395,7 +2418,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025937863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -3.3, z: 0}
+  m_LocalPosition: {x: 0, y: -3.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 754520052}
@@ -2504,8 +2527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.2850056, y: 0}
-  m_SizeDelta: {x: 5.4300113, y: 0}
+  m_AnchoredPosition: {x: -2.2850056, y: 0}
+  m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2034853809
 MonoBehaviour:
@@ -2520,20 +2543,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.104001164, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.11481484, g: 0.9433962, b: 0.04004982, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Type: 3
+  m_PreserveAspect: 1
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &2034853810

@@ -21,16 +21,48 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
     [SerializeField]
     private Text _ammoCounter;
+    [SerializeField]
+    private Slider _thrusterGauge;
+    [SerializeField]
+    private Image _thrusterColor;
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = "Score: " + 0;
         _restartText.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _ammoCounter.text = "Ammo: " + 15 + "/15";
+        _thrusterGauge = GetComponentInChildren<Slider>();
+        _thrusterColor = _thrusterGauge.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
+        if(_thrusterGauge == null)
+        {
+            Debug.Log("Gauge is NULL");
+        }
+        if (_thrusterColor== null)
+        {
+            Debug.Log("Color is NULL");
+        }
+
+    }
+
+
+    private void GaugeColor()
+    {
+        
+        if (_thrusterGauge.value <= 102f && _thrusterGauge.value >= 75f)
+        {
+            _thrusterColor.color = Color.green;
+        }
+        else if (_thrusterGauge.value <= 75f && _thrusterGauge.value >= 35f)
+        {
+            _thrusterColor.color = Color.yellow;
+        }
+        else if (_thrusterGauge.value <= 35f && _thrusterGauge.value >= 0f)
+        {
+            _thrusterColor.color = Color.red;
+        }
     }
 
     public void UpdateScore(int _playerScore)
@@ -74,7 +106,9 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        if(_restartText == true)
+        GaugeColor();
+
+        if (_restartText == true)
         {
             if(Input.GetKeyDown(KeyCode.R))
             {

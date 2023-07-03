@@ -55,8 +55,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _maxEnergy = 100f;
     private bool _thrustersActive = false;
+    [SerializeField]
+    private GameObject _thrusters;
+    private Animator _animator;
     private CameraShake _damageShake;
-
 
 
 
@@ -64,6 +66,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        _thrusters.transform.localPosition = new Vector3(0, -2.4f, 0);
+        _thrusters.transform.localScale = new Vector3(0.45f, 0.45f, 1);
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
         _megalaserPrefab.SetActive(false);
@@ -74,6 +78,12 @@ public class Player : MonoBehaviour
         _spriteRenderer = transform.Find("ShieldVisualizer").GetComponent<SpriteRenderer>();
         _thrusterGauge = GameObject.Find("Canvas").GetComponentInChildren<Slider>();
         _damageShake = GameObject.Find("Camera_Container").GetComponent<CameraShake>();
+        _animator = GetComponent<Animator>();
+        
+        if (_animator == null)
+        {
+            Debug.Log("Animator is null");
+        }
 
         if (_spriteRenderer == null)
         {
@@ -100,6 +110,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        CalculateAnim();
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
@@ -108,6 +119,31 @@ public class Player : MonoBehaviour
 
 
     }
+
+    void CalculateAnim()
+    {
+        float inputX = Input.GetAxisRaw("Horizontal");
+
+        if(inputX < -0.2f)
+        {
+            _animator.SetBool("AisDown", true);
+            _animator.SetBool("DisDown", false);
+            _animator.SetBool("DefaultState", false);
+        }
+        else if(inputX > 0.2f)
+        {
+            _animator.SetBool("AisDown", false);
+            _animator.SetBool("DisDown", true);
+            _animator.SetBool("DefaultState", false);
+        }
+        else if(inputX > -0.2f && inputX < 0.2f)
+        {
+            _animator.SetBool("AisDown", false);
+            _animator.SetBool("DisDown", false);
+            _animator.SetBool("DefaultState", true);
+        }
+    }
+
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -146,6 +182,8 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isThrusting();
+            _thrusters.transform.localPosition = new Vector3(0, -3.4f, 0);
+            _thrusters.transform.localScale = new Vector3(1, 1, 1);
             StartCoroutine(ThrustRoutine()); 
             if (_maxEnergy <= 0)
             {
@@ -156,6 +194,8 @@ public class Player : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             stopThrusting();
+            _thrusters.transform.localPosition = new Vector3(0, -2.4f, 0);
+            _thrusters.transform.localScale = new Vector3(0.45f, 0.45f, 1);
             StartCoroutine(ThrustRegenRoutine());
             
         }
