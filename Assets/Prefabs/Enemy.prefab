@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6de5079ccbb094da3d719704b4fa20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpeed: 3
+  _enemySpeed: 1
   _player: {fileID: 0}
   _animator: {fileID: 0}
   _boxCollider2D: {fileID: 0}
@@ -57,6 +57,8 @@ MonoBehaviour:
   _enemyLaser: {fileID: 2387812731862623184, guid: ca357916a1656f54ca7d2c1d5016cc48,
     type: 3}
   _fireRate: 3
+  _amplitude: 2
+  _frequency: 0.5
 --- !u!212 &2612125831862997171
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -685,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407582098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -408, y: -227.65, z: 0}
+  m_LocalPosition: {x: -407.8, y: -227.85, z: 0}
   m_LocalScale: {x: 0.16316791, y: 0.22639549, z: 0.16316791}
   m_Children: []
   m_Father: {fileID: 957170373}
@@ -741,6 +741,49 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &412938511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412938513}
+  - component: {fileID: 412938512}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &412938512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412938511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8669925ca31ce449b9ce2e9468bc8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &412938513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412938511}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &445753775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,7 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760f31ee5d8ec91479774ec29d8177a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 4
+  _speed: 6
   _laserPrefab: {fileID: 5392338954392533183, guid: eb82f7c42abb5554ea228c505918db54,
     type: 3}
   _triplePrefab: {fileID: 363414338615986396, guid: 3b3f3882dba1d2446ae9e03d590ce65c,
@@ -1023,7 +1066,7 @@ MonoBehaviour:
   _laserSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _powerupSound: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
-  _ammoCount: 15
+  _ammoCount: 30
   _megalaserPrefab: {fileID: 633457775}
   _thrusterGauge: {fileID: 172936881}
   _maxEnergy: 100
@@ -1404,6 +1447,7 @@ MonoBehaviour:
   _ammoCounter: {fileID: 1933893482}
   _thrusterGauge: {fileID: 172936881}
   _thrusterColor: {fileID: 2034853809}
+  _waveCounter: {fileID: 1469076156}
 --- !u!1 &933663293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,7 +1500,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 63.5
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1626,6 +1670,7 @@ RectTransform:
   - {fileID: 1417900127}
   - {fileID: 407582099}
   - {fileID: 172936882}
+  - {fileID: 1469076155}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1811,7 +1856,7 @@ Transform:
   m_GameObject: {fileID: 1269550326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.019, y: 0.707, z: 0}
-  m_LocalScale: {x: 1.1454781, y: 1.2088767, z: 1.0689628}
+  m_LocalScale: {x: 1.235169, y: 1.3035318, z: 1.1526626}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1894,6 +1939,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417900126}
   m_CullTransparentMesh: 0
+--- !u!1 &1469076154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469076155}
+  - component: {fileID: 1469076157}
+  - component: {fileID: 1469076156}
+  m_Layer: 5
+  m_Name: Wave_Display
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1469076155
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469076154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 957170373}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.1, y: 76}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1469076156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469076154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: d0e5a708c6efab34c935980043899e70, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &1469076157
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469076154}
+  m_CullTransparentMesh: 0
 --- !u!1 &1570676713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,6 +2058,10 @@ MonoBehaviour:
   _rarePowerups:
   - {fileID: 5036472938234873879, guid: 0cee1648801b23d43acc4f6a25da7123, type: 3}
   - {fileID: 1414442968345472151, guid: 98cb8f926038eb346bf8747d32a4db6b, type: 3}
+  _currentWave: 1
+  _enemiesToSpawn: 5
+  _enemiesLeft: 0
+  _startWave: 0
 --- !u!4 &1570676715
 Transform:
   m_ObjectHideFlags: 0

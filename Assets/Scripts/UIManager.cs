@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     private Slider _thrusterGauge;
     [SerializeField]
     private Image _thrusterColor;
+    [SerializeField]
+    private Text _waveCounter;
 
 
 
@@ -33,7 +35,8 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _restartText.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
-        _ammoCounter.text = "Ammo: " + 15 + "/15";
+        _waveCounter.gameObject.SetActive(false);
+        _ammoCounter.text = "Ammo: " + 30 + "/30";
         _thrusterGauge = GetComponentInChildren<Slider>();
         _thrusterColor = _thrusterGauge.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
         if(_thrusterGauge == null)
@@ -65,6 +68,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateWaves(int currentWave)
+    {
+        _waveCounter.gameObject.SetActive(true);
+        _waveCounter.text = "Wave: " + currentWave.ToString();
+        StartCoroutine(WaveDown());
+    }
+
     public void UpdateScore(int _playerScore)
     {
         _scoreText.text = "Score: " + _playerScore.ToString();
@@ -79,10 +89,17 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmo(int _ammo)
     {
-        _ammoCounter.text = "Ammo: " + _ammo.ToString() + "/15";
+        _ammoCounter.text = "Ammo: " + _ammo.ToString() + "/30";
     }
 
-
+    private IEnumerator WaveDown()
+    {                  
+        while (true)
+        {
+            yield return new WaitForSeconds(6.0f); 
+            _waveCounter.gameObject.SetActive(false);
+        }
+    }
     private IEnumerator GameOverFlicker()
     {
         while(true)

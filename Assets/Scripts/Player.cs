@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 4f;
+    private float _speed = 6f;
     private float _speedMultiplier = 2.0f;
     [SerializeField]
     private GameObject _laserPrefab;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _explosionSound;
     [SerializeField]
-    private int _ammoCount = 15;
+    private int _ammoCount = 30;
     private int _shieldHits = 3;
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
             StartCoroutine(ThrustRoutine()); 
             if (_maxEnergy <= 0)
             {
-                _speed = 4f;
+                _speed = 6f;
             }
 
         }
@@ -228,13 +228,13 @@ public class Player : MonoBehaviour
     private void isThrusting()
     {
         _thrustersActive = true;
-        _speed = 7f;
+        _speed = 9f;
     }
 
     private void stopThrusting()
     {
         _thrustersActive = false;
-        _speed = 4f;
+        _speed = 6f;
     }
 
 
@@ -366,7 +366,7 @@ public void Damage()
 
     public void AmmoActive()
     {
-        _ammoCount = 15;
+        _ammoCount = 30;
         _uiManager.UpdateAmmo(_ammoCount);
         _audioSource.clip = _powerupSound;
         _audioSource.PlayOneShot(_powerupSound, 1);

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 2.0f;
+    private float _enemySpeed = 3.0f;
     [SerializeField]
     private Player _player;
     [SerializeField]
@@ -21,6 +21,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _fireRate = 3.0f;
     private float _canFire = -1;
+    private float sinCenterY;
+    [SerializeField]
+    private float _amplitude = -2;
+    [SerializeField]
+    private float _frequency = 2;
+    private SpawnManager _spawnManager;
+ 
 
 
 
@@ -30,7 +37,9 @@ public class Enemy : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _explodeSound;
         _player = GameObject.Find("Player").GetComponent<Player>();
-
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _animator = transform.GetComponent<Animator>();
+        sinCenterY = transform.position.y;
 
         if (_player == null)
         {
@@ -49,34 +58,38 @@ public class Enemy : MonoBehaviour
             Debug.Log("Box Collider is null");
         }
 
-        _enemySpeed = 2.0f;
+        _enemySpeed = 3.0f;
 
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {     
 
-        CalculateMovement();
-
-        if (Time.time > _canFire)
+        if (Time.time > _canFire && _enemySpeed != 0)
         {
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(4f, 8f);
             _canFire = Time.time + _fireRate;
             Instantiate(_enemyLaser, transform.position + new Vector3(0, -1f, 0), Quaternion.identity);
         }
 
-
     }
 
-    void CalculateMovement()
-    {
-        transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
 
-        if (transform.position.y <= -7.1f)
+    private void FixedUpdate()
+    {
+        Vector2 pos = transform.position;
+       
+        float sin = Mathf.Sin(pos.x *_frequency) * _amplitude;
+        pos.x -= _enemySpeed * Time.fixedDeltaTime;
+        pos.y = sinCenterY + sin;
+
+        transform.position = pos;
+
+        if (transform.position.x < -12)
         {
-            float randomX = Random.Range(-9.5f, 9.5f);
-            transform.position = new Vector3(randomX, 9.5f, 0);
+            Destroy(this.gameObject);
+            _spawnManager._enemiesLeft--;
         }
     }
 
@@ -92,6 +105,7 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
+            
             EnemyDestroySequence();
 
         }
@@ -100,6 +114,7 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
             _player.addScore(10);
+            
             EnemyDestroySequence();
 
         }
@@ -107,6 +122,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "MegaLaser")
         {
             _player.addScore(10);
+           
             EnemyDestroySequence();
         }
 
@@ -115,6 +131,7 @@ public class Enemy : MonoBehaviour
     private void EnemyDestroySequence()
     {
         Destroy(this._boxCollider2D);
+        _spawnManager._enemiesLeft--;
         _audioSource.PlayOneShot(_explodeSound, 1);
         _enemySpeed = 0f;
         _animator.SetTrigger("OnEnemyDown");
