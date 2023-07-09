@@ -43,7 +43,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _powerupSound;
     [SerializeField]
+    private AudioClip _megaSound;
+    [SerializeField]
     private AudioClip _explosionSound;
+    [SerializeField]
+    private AudioClip _freezeSound;
     [SerializeField]
     private int _ammoCount = 30;
     private int _shieldHits = 3;
@@ -59,6 +63,9 @@ public class Player : MonoBehaviour
     private GameObject _thrusters;
     private Animator _animator;
     private CameraShake _damageShake;
+    [SerializeField]
+    private GameObject _freeze;
+    private bool _isFrozen = false;
 
 
 
@@ -161,45 +168,49 @@ public class Player : MonoBehaviour
         }
 
 
-        if (transform.position.y >= 5.9f)
+        if (transform.position.y >= 7.67f)
         {
-            transform.position = new Vector3(transform.position.x, 5.9f, 0);
+            transform.position = new Vector3(transform.position.x, 7.67f, 0);
         }
-        else if (transform.position.y <= -3.9f)
+        else if (transform.position.y <= -5.47f)
         {
-            transform.position = new Vector3(transform.position.x, -3.9f, 0);
-        }
-
-        if (transform.position.x >= 11.25f)
-        {
-            transform.position = new Vector3(-11.25f, transform.position.y, 0);
-        }
-        else if (transform.position.x <= -11.25f)
-        {
-            transform.position = new Vector3(11.25f, transform.position.y, 0);
+            transform.position = new Vector3(transform.position.x, -5.47f, 0);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (transform.position.x >= 14.2f)
         {
-            isThrusting();
-            _thrusters.transform.localPosition = new Vector3(0, -3.4f, 0);
-            _thrusters.transform.localScale = new Vector3(1, 1, 1);
-            StartCoroutine(ThrustRoutine()); 
-            if (_maxEnergy <= 0)
+            transform.position = new Vector3(-14.2f, transform.position.y, 0);
+        }
+        else if (transform.position.x <= -14.2f)
+        {
+            transform.position = new Vector3(14.2f, transform.position.y, 0);
+        }
+
+        if (_isFrozen == false)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                _speed = 6f;
+                isThrusting();
+                _thrusters.transform.localPosition = new Vector3(0, -3.4f, 0);
+                _thrusters.transform.localScale = new Vector3(1, 1, 1);
+                StartCoroutine(ThrustRoutine());
+                if (_maxEnergy <= 0)
+                {
+                    _thrusters.transform.localPosition = new Vector3(0, -2.4f, 0);
+                    _thrusters.transform.localScale = new Vector3(0.45f, 0.45f, 1);
+                    _speed = 6f;
+                }
+
             }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                stopThrusting();
+                _thrusters.transform.localPosition = new Vector3(0, -2.4f, 0);
+                _thrusters.transform.localScale = new Vector3(0.45f, 0.45f, 1);
+                StartCoroutine(ThrustRegenRoutine());
 
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            stopThrusting();
-            _thrusters.transform.localPosition = new Vector3(0, -2.4f, 0);
-            _thrusters.transform.localScale = new Vector3(0.45f, 0.45f, 1);
-            StartCoroutine(ThrustRegenRoutine());
-            
-        }
-
         _thrusterGauge.value = _maxEnergy;
 
     }
@@ -242,21 +253,24 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
-        if (_ammoCount > 0)
+        if (_isFrozen == false)
         {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
-            _ammoCount--;
-            _uiManager.UpdateAmmo(_ammoCount);
-            _audioSource.PlayOneShot(_laserSound, 1);
-        }
 
-        if (_triple == true)
-        {
-            Instantiate(_triplePrefab, transform.position, Quaternion.identity);
-            _audioSource.PlayOneShot(_laserSound, 1);
-        }
+            if (_ammoCount > 0)
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.95f, 0), Quaternion.identity);
+                _ammoCount--;
+                _uiManager.UpdateAmmo(_ammoCount);
+                _audioSource.PlayOneShot(_laserSound, 1);
+            }
 
-       
+            if (_triple == true)
+            {
+                Instantiate(_triplePrefab, transform.position, Quaternion.identity);
+                _audioSource.PlayOneShot(_laserSound, 1);
+            }
+
+        }
     }
 
 
@@ -402,9 +416,30 @@ public void Damage()
     IEnumerator MegaCooldown()
     {
         _megalaserPrefab.SetActive(true);
+        _audioSource.clip = _megaSound;
+        _audioSource.PlayOneShot(_megaSound, 1);
         yield return new WaitForSeconds(5.0f);
         _megalaserPrefab.SetActive(false);
     }
+
+    public void FreezeActive()
+    {
+        _isFrozen = true;
+        _speed = 0;
+        _audioSource.clip = _freezeSound;
+        _audioSource.PlayOneShot(_freezeSound, 1);
+        _freeze.gameObject.SetActive(true);
+        StartCoroutine(FreezeCooldown());
+    }
+
+    IEnumerator FreezeCooldown()
+    {
+        yield return new WaitForSeconds(4.0f);
+        _speed = 6;
+        _isFrozen = false;
+        _freeze.gameObject.SetActive(false);
+    }
+
 
     public void addScore(int addPoints)
     {

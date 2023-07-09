@@ -16,7 +16,7 @@ public class Powerup : MonoBehaviour
     void Start()
     {
  
-        transform.position = new Vector3(Random.Range(-9.5f, 9.5f), 9.5f, 0);
+       
 
     }
 
@@ -25,7 +25,7 @@ public class Powerup : MonoBehaviour
     {
 
         transform.Translate(Vector3.down * _powerupSpeed * Time.deltaTime);
-        if (transform.position.y <= -7.1f)
+        if (transform.position.y <= -7.5f)
         {
             Destroy(this.gameObject);
         }
@@ -60,6 +60,9 @@ public class Powerup : MonoBehaviour
                         break;
                     case 5:
                         player.MegaLaserActive();
+                        break;
+                    case 6:
+                        player.FreezeActive();
                         break;
                     default:
                         Debug.Log("Default Value");

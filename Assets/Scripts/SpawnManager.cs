@@ -8,6 +8,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
+    private GameObject _enemy2Prefab;
+    [SerializeField]
+    private GameObject _enemyLeftPrefab;
+    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawn = false;
@@ -84,10 +88,26 @@ public class SpawnManager : MonoBehaviour
         {
             if (enemiesSpawned != _enemiesToSpawn)
             {
-                Vector3 postLoc = new Vector3(11.25f, Random.Range(2.0f, 6.0f), 0);
-                GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
-                newEnemy.transform.parent = _enemyContainer.transform;
-                enemiesSpawned++;
+                Vector3 postLoc = new Vector3(14.5f, Random.Range(2.0f, 8.0f), 0);
+                Vector3 postLoc2 = new Vector3(-14.5f, Random.Range(2.0f, 8.0f), 0);
+                int randomNumber = Random.Range(0, 11);
+                if (randomNumber >= 0 && randomNumber <= 4)
+                {
+                    GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }
+                else if (randomNumber >= 5 && randomNumber <= 9)
+                {
+                    GameObject newEnemy2 = Instantiate(_enemyLeftPrefab, postLoc2, Quaternion.identity);
+                    newEnemy2.transform.parent = _enemyContainer.transform;
+                }
+                else if (_currentWave >= 2 && randomNumber >= 10)
+                {
+                    Instantiate(_enemy2Prefab);
+                }
+                
+                
+                enemiesSpawned ++;
             }
             else if(enemiesSpawned == _enemiesToSpawn)
             {
@@ -95,6 +115,8 @@ public class SpawnManager : MonoBehaviour
                 _startWave = true;
                 enemiesSpawned = 0;
             }
+
+            
 
             yield return new WaitForSeconds(1.0f);
         }
@@ -108,12 +130,12 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawn == false)
         {
-            Vector3 powerLoc = new Vector3(Random.Range(-9.5f, 9.5f), 9.5f, 0);
+            Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
             int randomNumber = Random.Range(0, 9);
 
             if (randomNumber >= 0 && randomNumber <= 5)
             {
-                int randomCommon = Random.Range(0, 4);
+                int randomCommon = Random.Range(0, 5);
                 GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
             }
             else if (randomNumber >= 6 && randomNumber <= 9)
@@ -127,7 +149,7 @@ public class SpawnManager : MonoBehaviour
             }
 
 
-            yield return new WaitForSeconds(Random.Range(3, 7));
+            yield return new WaitForSeconds(Random.Range(2, 5));
         }
     }
 

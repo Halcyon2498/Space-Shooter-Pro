@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
 
         transform.position = pos;
 
-        if (transform.position.x < -12)
+        if (transform.position.x < -14.3f)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
