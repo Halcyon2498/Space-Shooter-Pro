@@ -65,7 +65,15 @@ public class Player : MonoBehaviour
     private CameraShake _damageShake;
     [SerializeField]
     private GameObject _freeze;
+    [SerializeField]
+    private GameObject _misslePrefab;
+    [SerializeField]
+    private AudioClip _missleSound;
+    [SerializeField]
+    private AudioClip _reloadSound;
     private bool _isFrozen = false;
+    [SerializeField]
+    private int _barrageCount = 5;
 
 
 
@@ -86,7 +94,7 @@ public class Player : MonoBehaviour
         _thrusterGauge = GameObject.Find("Canvas").GetComponentInChildren<Slider>();
         _damageShake = GameObject.Find("Camera_Container").GetComponent<CameraShake>();
         _animator = GetComponent<Animator>();
-        
+
         if (_animator == null)
         {
             Debug.Log("Animator is null");
@@ -101,7 +109,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The Spawn Manager is NULL");
         }
-        
+
         if (_thrusterGauge == null)
         {
             Debug.LogError("The Slider is NULL");
@@ -123,7 +131,12 @@ public class Player : MonoBehaviour
             FireLaser();
         }
 
-
+        if (Input.GetKeyDown(KeyCode.X) && _barrageCount > 0)
+        {
+            _barrageCount--;
+            _uiManager.UpdateMissiles(_barrageCount);
+            StartCoroutine(MissleBarrage());
+        }
 
     }
 
@@ -131,25 +144,26 @@ public class Player : MonoBehaviour
     {
         float inputX = Input.GetAxisRaw("Horizontal");
 
-        if(inputX < -0.2f)
+        if (inputX < -0.2f)
         {
             _animator.SetBool("AisDown", true);
             _animator.SetBool("DisDown", false);
             _animator.SetBool("DefaultState", false);
         }
-        else if(inputX > 0.2f)
+        else if (inputX > 0.2f)
         {
             _animator.SetBool("AisDown", false);
             _animator.SetBool("DisDown", true);
             _animator.SetBool("DefaultState", false);
         }
-        else if(inputX > -0.2f && inputX < 0.2f)
+        else if (inputX > -0.2f && inputX < 0.2f)
         {
             _animator.SetBool("AisDown", false);
             _animator.SetBool("DisDown", false);
             _animator.SetBool("DefaultState", true);
         }
     }
+
 
     void CalculateMovement()
     {
@@ -220,7 +234,7 @@ public class Player : MonoBehaviour
     {
         while (_thrustersActive == true && _maxEnergy >= 0)
         {
-            _maxEnergy -= 0.1f;          
+            _maxEnergy -= 0.1f;
             yield return new WaitForSeconds(2.0f);
         }
     }
@@ -234,7 +248,7 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-    }    
+    }
 
     private void isThrusting()
     {
@@ -273,25 +287,47 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator MissleBarrage()
+    {
+        int _misslesFired = 6;
 
-public void Damage()
+        while (_misslesFired > 0)
+        {
+            _audioSource.PlayOneShot(_missleSound, 1f);
+            Instantiate(_misslePrefab, transform.position + new Vector3(1, 1f, 0), Quaternion.identity);
+            Instantiate(_misslePrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            Instantiate(_misslePrefab, transform.position + new Vector3(-1, 1f, 0), Quaternion.identity);
+            yield return new WaitForSeconds(0.5f);
+            _misslesFired--;
+        }
+        if (_misslesFired == 0)
+        {
+            StopBarrage();
+        }
+    }
+    private void StopBarrage()
+    {
+        StopCoroutine(MissleBarrage());
+    }
+
+    public void Damage()
     {
 
         if (_shield == true)
         {
             _shieldHits--;
-            
+
             if (_shieldHits == 2)
             {
-           
+
                 _spriteRenderer.color = new Color(255f, 0f, 255f, 255f);
-                
+
             }
             if (_shieldHits == 1)
             {
-              
+
                 _spriteRenderer.color = new Color(255f, 0f, 0f, 255f);
-              
+
             }
             if (_shieldHits < 1)
             {
@@ -440,6 +476,13 @@ public void Damage()
         _freeze.gameObject.SetActive(false);
     }
 
+    public void RefillBarrage()
+    {
+        _barrageCount = 5;
+        _uiManager.RefillMissles();
+        _audioSource.clip = _reloadSound;
+        _audioSource.PlayOneShot(_reloadSound, 1);
+    }
 
     public void addScore(int addPoints)
     {

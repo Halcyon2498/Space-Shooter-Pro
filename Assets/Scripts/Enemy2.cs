@@ -154,14 +154,14 @@ public class Enemy2 : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            _player.addScore(50);
+            _player.addScore(100);
             Damage();
 
         }
 
         if (other.tag == "MegaLaser")
         {
-            _player.addScore(50);
+            _player.addScore(100);
 
             EnemyDestroySequence();
         }

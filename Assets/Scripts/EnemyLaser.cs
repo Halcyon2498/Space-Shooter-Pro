@@ -20,6 +20,13 @@ public class EnemyLaser : MonoBehaviour
         }
 
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "MegaLaser")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
 
 }

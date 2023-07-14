@@ -133,5 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abecf59ea4a36884a95cf14f7ac40e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _powerupSpeed: 3
+  _powerupSpeed: 5
+  _powerupVacuum: 7
+  _explosionPrefab: {fileID: 6133394056288003120, guid: 9c1df46f67cd62e48a7a76813c1e6356,
+    type: 3}
   powerupID: 6
+  _playerTransform: {fileID: 0}

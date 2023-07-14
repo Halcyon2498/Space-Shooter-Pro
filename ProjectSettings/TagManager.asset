@@ -10,6 +10,8 @@ TagManager:
   - EnemyLaser
   - Asteroid
   - MegaLaser
+  - Detector
+  - Hitbox
   layers:
   - Default
   - TransparentFX

@@ -5,18 +5,23 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField]
-    private float _powerupSpeed = 3.0f;
-
+    private float _powerupSpeed = 5f;
+    [SerializeField]
+    private float _powerupVacuum = 7f;
+    [SerializeField]
+    private GameObject _explosionPrefab;
     [SerializeField]
     private int powerupID;
 
+    public Transform _playerTransform;
 
 
     // Start is called before the first frame update
     void Start()
     {
- 
-       
+
+        _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+        _explosionPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
     }
 
@@ -28,6 +33,11 @@ public class Powerup : MonoBehaviour
         if (transform.position.y <= -7.5f)
         {
             Destroy(this.gameObject);
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _playerTransform.position, _powerupVacuum * Time.deltaTime);
         }
     }
 
@@ -64,12 +74,22 @@ public class Powerup : MonoBehaviour
                     case 6:
                         player.FreezeActive();
                         break;
+                    case 7:
+                        player.RefillBarrage();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;
                 }
  
             }
+            Destroy(this.gameObject);
+        }
+
+        if(other.tag == "EnemyLaser")
+        {
+            Destroy(other.gameObject);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _livesSprites;
     [SerializeField]
+    private GameObject[] _misslesRemaining;
+    [SerializeField]
     private Image _livesImage;
     [SerializeField]
     private Text _gameOverText;
@@ -85,6 +87,20 @@ public class UIManager : MonoBehaviour
  
         _livesImage.sprite = _livesSprites[currentLives];        
 
+    }
+
+    public void UpdateMissiles(int mCount)
+    {
+        _misslesRemaining[mCount].gameObject.SetActive(false);
+    }
+
+    public void RefillMissles()
+    {
+        _misslesRemaining[0].gameObject.SetActive(true);
+        _misslesRemaining[1].gameObject.SetActive(true);
+        _misslesRemaining[2].gameObject.SetActive(true);
+        _misslesRemaining[3].gameObject.SetActive(true);
+        _misslesRemaining[4].gameObject.SetActive(true);
     }
 
     public void UpdateAmmo(int _ammo)

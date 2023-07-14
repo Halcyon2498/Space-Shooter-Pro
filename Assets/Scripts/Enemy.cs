@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
     [SerializeField]
-    private AudioClip _explodeSound;
+    private GameObject _explosionPrefab;
     [SerializeField]
     private GameObject _enemyLaser;
     [SerializeField]
@@ -26,8 +26,16 @@ public class Enemy : MonoBehaviour
     private float _amplitude = -2;
     [SerializeField]
     private float _frequency = 2;
+    [SerializeField]
+    private GameObject _shieldVisualizer;
+    private int _shieldHits = 0;
+    private bool _shield = false;
     private SpawnManager _spawnManager;
- 
+    public Transform _castPoint;
+    private bool _detectPower = false;
+    private float _rayDistance = 12f;
+    private bool hasFired = false;
+
 
 
 
@@ -35,11 +43,12 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        _audioSource.clip = _explodeSound;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _animator = transform.GetComponent<Animator>();
         sinCenterY = transform.position.y;
+        _shieldVisualizer.SetActive(false);
+
 
         if (_player == null)
         {
@@ -60,19 +69,59 @@ public class Enemy : MonoBehaviour
 
         _enemySpeed = 3.0f;
 
+        int ifShield = Random.Range(0, 9);
+        if (ifShield <= 2)
+        {
+            _shieldVisualizer.SetActive(true);
+            _shield = true;
+            _shieldHits = 1;
+        }
+      
     }
 
-    // Update is called once per frame
     void Update()
-    {     
+    {
+        FireEnemyLaser();
+        PowerLOS();
+    }
 
+    void FireEnemyLaser()
+    {
         if (Time.time > _canFire && _enemySpeed != 0)
         {
             _fireRate = Random.Range(4f, 8f);
             _canFire = Time.time + _fireRate;
             Instantiate(_enemyLaser, transform.position + new Vector3(0, -1f, 0), Quaternion.identity);
         }
+    }
 
+    void ShootPower()
+    {
+
+        if (hasFired == false)
+        {
+            Instantiate(_enemyLaser, transform.position + new Vector3(0, -1f, 0), Quaternion.identity);
+            _detectPower = false;
+            hasFired = true;
+        }
+    }
+
+    void PowerLOS()
+    {
+
+        Debug.DrawRay(_castPoint.transform.position, (-transform.up * _rayDistance), Color.red);
+
+        RaycastHit2D hit = Physics2D.Raycast(_castPoint.transform.position, -transform.up, 6);
+
+        if (hit)
+        {
+            if (hit.collider.tag == "Powerup" && _detectPower == false)
+            {
+                _detectPower = true;
+                ShootPower();
+               
+            }
+        }
     }
 
 
@@ -86,10 +135,20 @@ public class Enemy : MonoBehaviour
 
         transform.position = pos;
 
-        if (transform.position.x < -14.3f)
+        if (transform.position.x < -7.5f)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
+        }
+    }
+
+    public void Damage()
+    {
+        if (_shield == true)
+        {
+            _shieldHits--;
+            _shieldVisualizer.SetActive(false);
+            _shield = false;
         }
     }
 
@@ -105,8 +164,15 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            
-            EnemyDestroySequence();
+
+            if (_shield == true)
+            {
+                Damage();
+            }
+            else
+            {
+                EnemyDestroySequence();
+            }
 
         }
 
@@ -114,16 +180,22 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
             _player.addScore(10);
-            
-            EnemyDestroySequence();
+            if (_shield == true)
+            {
+                Damage();
+            }
+            else
+            {
+                EnemyDestroySequence();
+            }
 
         }
 
         if (other.tag == "MegaLaser")
         {
             _player.addScore(10);
-           
-            EnemyDestroySequence();
+            _shieldVisualizer.SetActive(false);
+            EnemyDestroySequence();         
         }
 
     }
@@ -132,10 +204,9 @@ public class Enemy : MonoBehaviour
     {
         Destroy(this._boxCollider2D);
         _spawnManager._enemiesLeft--;
-        _audioSource.PlayOneShot(_explodeSound, 1);
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         _enemySpeed = 0f;
-        _animator.SetTrigger("OnEnemyDown");
-        Destroy(this.gameObject, 2.5f);
+        Destroy(this.gameObject);
     }
 
 

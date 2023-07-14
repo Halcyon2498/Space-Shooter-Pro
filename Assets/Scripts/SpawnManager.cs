@@ -12,6 +12,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyLeftPrefab;
     [SerializeField]
+    private GameObject _RamEnemyPrefab;
+    [SerializeField]
+    private GameObject _smartEnemyPrefab;
+    [SerializeField]
+    private GameObject _speedEnemyPrefab;
+    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawn = false;
@@ -41,12 +47,15 @@ public class SpawnManager : MonoBehaviour
     private void Update()
     {
 
-        if (_enemyContainer.transform.childCount == 0 && _startWave == true)
+        if (_startWave == true)
         {
-            _enemiesLeft = 0;
             StopCoroutine(SpawnEnemyRoutine());
             StopCoroutine(SpawnPowerUpRoutine());
-            EndWave();
+            if (_enemyContainer.transform.childCount == 0)
+            {
+                _enemiesLeft = 0;
+                EndWave();
+            }
         }
     }
 
@@ -72,7 +81,7 @@ public class SpawnManager : MonoBehaviour
     {       
         _currentWave += 1;
         _enemiesToSpawn += 20;
-        new WaitForSeconds(3.0f);
+        new WaitForSeconds(4.0f);
         StartWave();
     }
 
@@ -90,18 +99,31 @@ public class SpawnManager : MonoBehaviour
             {
                 Vector3 postLoc = new Vector3(14.5f, Random.Range(2.0f, 8.0f), 0);
                 Vector3 postLoc2 = new Vector3(-14.5f, Random.Range(2.0f, 8.0f), 0);
-                int randomNumber = Random.Range(0, 11);
-                if (randomNumber >= 0 && randomNumber <= 4)
+                Vector3 postLoc3 = new Vector3(Random.Range(-10f, 10f), 9f, 0);
+                int randomNumber = Random.Range(0, 21);
+                if (randomNumber >= 0 && randomNumber <= 7)
                 {
                     GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
-                else if (randomNumber >= 5 && randomNumber <= 9)
+                else if (randomNumber >= 9 && randomNumber <= 15)
                 {
                     GameObject newEnemy2 = Instantiate(_enemyLeftPrefab, postLoc2, Quaternion.identity);
                     newEnemy2.transform.parent = _enemyContainer.transform;
                 }
-                else if (_currentWave >= 2 && randomNumber >= 10)
+                else if(randomNumber >= 16 && randomNumber <= 17)
+                {
+                    Instantiate(_RamEnemyPrefab, postLoc3, Quaternion.identity);
+                }
+                else if(randomNumber == 18)
+                {
+                    Instantiate(_smartEnemyPrefab);
+                }
+                else if(randomNumber == 19)
+                {
+                    Instantiate(_speedEnemyPrefab);
+                }
+                else if (_currentWave >= 2 && randomNumber == 20)
                 {
                     Instantiate(_enemy2Prefab);
                 }
@@ -133,14 +155,14 @@ public class SpawnManager : MonoBehaviour
             Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
             int randomNumber = Random.Range(0, 9);
 
-            if (randomNumber >= 0 && randomNumber <= 5)
+            if (randomNumber >= 0 && randomNumber <= 6)
             {
                 int randomCommon = Random.Range(0, 5);
                 GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
             }
-            else if (randomNumber >= 6 && randomNumber <= 9)
+            else if (randomNumber >= 7 && randomNumber <= 9)
             {
-                int randomRare = Random.Range(0, 2);
+                int randomRare = Random.Range(0, 3);
                 GameObject _rarePowerup = Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
             }
             else
