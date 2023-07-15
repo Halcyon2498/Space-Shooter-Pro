@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _speedEnemyPrefab;
     [SerializeField]
+    private GameObject _bossPrefab;
+    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawn = false;
@@ -30,6 +32,7 @@ public class SpawnManager : MonoBehaviour
     public int _enemiesToSpawn = 0;
     public int _enemiesLeft = 0;
     public bool _startWave = false;
+    public bool _startBossWave = false;
  
 
 
@@ -47,42 +50,51 @@ public class SpawnManager : MonoBehaviour
     private void Update()
     {
 
-        if (_startWave == true)
+        if (_startWave == true && _enemyContainer.transform.childCount == 0)
         {
-            StopCoroutine(SpawnEnemyRoutine());
             StopCoroutine(SpawnPowerUpRoutine());
-            if (_enemyContainer.transform.childCount == 0)
-            {
-                _enemiesLeft = 0;
-                EndWave();
-            }
+            _enemiesLeft = 0;
+            EndWave();
         }
+
+    }
+
+    private void StartBossWave()
+    {
+        _uiManager.UpdateBoss();
+        Instantiate(_bossPrefab);
     }
 
     private void StartSpawning()
     {
-        StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerUpRoutine());
-        _startWave = false;
         _enemiesLeft = _enemiesToSpawn;
+        _startWave = false;
+        _stopSpawn = false;
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerUpRoutine()); 
+        
     }
 
     private void StartWave()
     {
         _uiManager.UpdateWaves(_currentWave); 
-        new WaitForSeconds(3.0f);
-        _stopSpawn = false;
         _enemiesLeft = _enemiesToSpawn;             
         StartSpawning();
 
     }
 
     public void EndWave()
-    {       
+    {     
         _currentWave += 1;
-        _enemiesToSpawn += 20;
-        new WaitForSeconds(4.0f);
-        StartWave();
+        if (_currentWave < 5)
+        {
+            _enemiesToSpawn += 10;
+            StartWave();
+        }
+        else if (_currentWave == 5)
+        {
+            StartBossWave();
+        }
     }
 
 
@@ -91,7 +103,7 @@ public class SpawnManager : MonoBehaviour
     {
         int enemiesSpawned = 0;     
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.0f);
 
         while (_stopSpawn == false)
         {
@@ -106,39 +118,45 @@ public class SpawnManager : MonoBehaviour
                     GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
                 }
-                else if (randomNumber >= 9 && randomNumber <= 15)
+                else if (randomNumber >= 8 && randomNumber <= 16)
                 {
                     GameObject newEnemy2 = Instantiate(_enemyLeftPrefab, postLoc2, Quaternion.identity);
                     newEnemy2.transform.parent = _enemyContainer.transform;
                 }
-                else if(randomNumber >= 16 && randomNumber <= 17)
+                else if (randomNumber >= 17 && randomNumber <= 18)
                 {
-                    Instantiate(_RamEnemyPrefab, postLoc3, Quaternion.identity);
+                    GameObject newEnemy3 = Instantiate(_RamEnemyPrefab, postLoc3, Quaternion.identity);
+                    newEnemy3.transform.parent = _enemyContainer.transform;
                 }
-                else if(randomNumber == 18)
+                else if (randomNumber == 19)
                 {
-                    Instantiate(_smartEnemyPrefab);
+                    GameObject newEnemy4 = Instantiate(_smartEnemyPrefab);
+                    newEnemy4.transform.parent = _enemyContainer.transform;
                 }
-                else if(randomNumber == 19)
+                else if (randomNumber == 20)
                 {
-                    Instantiate(_speedEnemyPrefab);
+                    GameObject newEnemy5 = Instantiate(_speedEnemyPrefab);
+                    newEnemy5.transform.parent = _enemyContainer.transform;
                 }
-                else if (_currentWave >= 2 && randomNumber == 20)
+                else if (_currentWave >= 2 && randomNumber == 21)
                 {
-                    Instantiate(_enemy2Prefab);
+                    GameObject newEnemy6 = Instantiate(_enemy2Prefab);
+                    newEnemy6.transform.parent = _enemyContainer.transform;
                 }
-                
-                
-                enemiesSpawned ++;
+                else
+                {
+                    Debug.Log("Invalid ENemy");
+                }
+
+                enemiesSpawned++;
+
             }
-            else if(enemiesSpawned == _enemiesToSpawn)
+            else if (enemiesSpawned == _enemiesToSpawn)
             {
                 _stopSpawn = true;
-                _startWave = true;
                 enemiesSpawned = 0;
+                _startWave = true;
             }
-
-            
 
             yield return new WaitForSeconds(1.0f);
         }

@@ -295,7 +295,6 @@ public class Player : MonoBehaviour
         {
             _audioSource.PlayOneShot(_missleSound, 1f);
             Instantiate(_misslePrefab, transform.position + new Vector3(1, 1f, 0), Quaternion.identity);
-            Instantiate(_misslePrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
             Instantiate(_misslePrefab, transform.position + new Vector3(-1, 1f, 0), Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             _misslesFired--;
@@ -367,6 +366,21 @@ public class Player : MonoBehaviour
         if (other.tag == "EnemyLaser")
         {
             Destroy(other.gameObject);
+            _audioSource.clip = _explosionSound;
+            _audioSource.PlayOneShot(_explosionSound, 1);
+            Damage();
+        }
+
+        if(other.tag == "BossBullet1")
+        {
+            other.gameObject.SetActive(false);
+            _audioSource.clip = _explosionSound;
+            _audioSource.PlayOneShot(_explosionSound, 1);
+            Damage();
+        }
+
+        if(other.tag == "EnemyMega")
+        {
             _audioSource.clip = _explosionSound;
             _audioSource.PlayOneShot(_explosionSound, 1);
             Damage();

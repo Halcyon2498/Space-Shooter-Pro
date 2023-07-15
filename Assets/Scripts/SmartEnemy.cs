@@ -88,6 +88,7 @@ public class SmartEnemy : MonoBehaviour
         if (waypointIndex == waypoints.Length)
         {
             Destroy(this.gameObject);
+            _spawnManager._enemiesLeft--;
         }
     }
 

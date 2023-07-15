@@ -12,6 +12,8 @@ TagManager:
   - MegaLaser
   - Detector
   - Hitbox
+  - BossBullet1
+  - EnemyMega
   layers:
   - Default
   - TransparentFX

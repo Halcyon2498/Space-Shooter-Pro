@@ -59,6 +59,7 @@ public class SpeedEnemy : MonoBehaviour
         if (waypointIndex == waypoints.Length)
         {
             Destroy(this.gameObject);
+            _spawnManager._enemiesLeft--;
         }
     }
 

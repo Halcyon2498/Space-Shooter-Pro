@@ -29,7 +29,13 @@ public class UIManager : MonoBehaviour
     private Image _thrusterColor;
     [SerializeField]
     private Text _waveCounter;
-
+    [SerializeField]
+    private Text _bossWave;
+    [SerializeField]
+    private Text _victory;
+    [SerializeField]
+    private Text _finalScore;
+    private int updateScore = 0;
 
 
     void Start()
@@ -38,10 +44,14 @@ public class UIManager : MonoBehaviour
         _restartText.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _waveCounter.gameObject.SetActive(false);
+        _bossWave.gameObject.SetActive(false);
+        _victory.gameObject.SetActive(false);
+        _finalScore.gameObject.SetActive(false);
         _ammoCounter.text = "Ammo: " + 30 + "/30";
         _thrusterGauge = GetComponentInChildren<Slider>();
         _thrusterColor = _thrusterGauge.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
-        if(_thrusterGauge == null)
+
+        if (_thrusterGauge == null)
         {
             Debug.Log("Gauge is NULL");
         }
@@ -80,6 +90,7 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int _playerScore)
     {
         _scoreText.text = "Score: " + _playerScore.ToString();
+        updateScore = _playerScore;
     }
 
     public void UpdateLives(int currentLives)
@@ -89,9 +100,23 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void UpdateBoss()
+    {
+        _bossWave.gameObject.SetActive(true);
+        StartCoroutine(BossFlicker());
+    }
+
     public void UpdateMissiles(int mCount)
     {
         _misslesRemaining[mCount].gameObject.SetActive(false);
+    }
+
+    public void Victory()
+    {
+        _victory.gameObject.SetActive(false);
+        _finalScore.gameObject.SetActive(true);
+        _finalScore.text = "Final Score: " + updateScore.ToString();
+        _restartText.gameObject.SetActive(true);
     }
 
     public void RefillMissles()
@@ -109,12 +134,40 @@ public class UIManager : MonoBehaviour
     }
 
     private IEnumerator WaveDown()
-    {                  
-        while (true)
-        {
-            yield return new WaitForSeconds(6.0f); 
-            _waveCounter.gameObject.SetActive(false);
-        }
+    {
+
+        yield return new WaitForSeconds(6.0f);
+        _waveCounter.gameObject.SetActive(false);
+
+    }
+
+    private IEnumerator BossFlicker()
+    {
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            transform.GetChild(10).gameObject.SetActive(false);
     }
     private IEnumerator GameOverFlicker()
     {

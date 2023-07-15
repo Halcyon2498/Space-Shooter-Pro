@@ -15,6 +15,8 @@ public class Enemy2 : MonoBehaviour
     [SerializeField]
     private Collider2D _boxCollider2D;
     [SerializeField]
+    private GameObject _explosionPrefab;
+    [SerializeField]
     private AudioSource _audioSource;
     [SerializeField]
     private AudioClip _explodeSound;
@@ -91,6 +93,7 @@ public class Enemy2 : MonoBehaviour
         if (waypointIndex == waypoints.Length)
         {
             Destroy(this.gameObject);
+            _spawnManager._enemiesLeft--;
         }
     }
 
@@ -171,12 +174,10 @@ public class Enemy2 : MonoBehaviour
 
     private void EnemyDestroySequence()
     {
-        Destroy(this._boxCollider2D);
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         _spawnManager._enemiesLeft--;
-        _audioSource.PlayOneShot(_explodeSound, 1);
         movespeed = 0f;
-        _animator.SetTrigger("OnEnemy2Down");
-        Destroy(this.gameObject, 2.5f);
+        Destroy(this.gameObject);
     }
 
 
