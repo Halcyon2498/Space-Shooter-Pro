@@ -39,7 +39,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _currentWave = 4;
+        _currentWave = 0;
         _enemiesToSpawn = 0;
         if (_uiManager == null)
         {
