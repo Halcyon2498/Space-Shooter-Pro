@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
                 Vector3 postLoc = new Vector3(14.5f, Random.Range(2.0f, 8.0f), 0);
                 Vector3 postLoc2 = new Vector3(-14.5f, Random.Range(2.0f, 8.0f), 0);
                 Vector3 postLoc3 = new Vector3(Random.Range(-10f, 10f), 9f, 0);
-                int randomNumber = Random.Range(0, 21);
+                int randomNumber = Random.Range(0, 22);
                 if (randomNumber >= 0 && randomNumber <= 7)
                 {
                     GameObject newEnemy = Instantiate(_enemyPrefab, postLoc, Quaternion.identity);
@@ -175,7 +175,7 @@ public class SpawnManager : MonoBehaviour
             if (_currentWave != 5)
             {
                 Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
-                int randomNumber = Random.Range(0, 9);
+                int randomNumber = Random.Range(0, 10);
 
 
                 if (randomNumber >= 0 && randomNumber <= 6)
