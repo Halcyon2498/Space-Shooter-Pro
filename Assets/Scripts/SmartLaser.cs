@@ -22,15 +22,10 @@ public class SmartLaser : MonoBehaviour
 
     void Update()
     {
-        if (_player != null)
-        {
-            Vector3 aim = (_player.transform.position - transform.position).normalized;
-            _rb.AddForce(aim * 3f);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+
+        Vector3 aim = (_player.transform.position - transform.position).normalized;
+        _rb.AddForce(aim * 5f);
+        Destroy(this.gameObject, 2.5f);
     }
 
     private void OnBecameInvisible()

@@ -29,6 +29,12 @@ public class SpeedHit : MonoBehaviour
 
         }
 
+        if (other.tag == "Missle")
+        { 
+            Destroy(this.boxCollider);
+            speedEnemy.LaserHit();
+        }
+
         if (other.tag == "MegaLaser")
         {
             Destroy(this.boxCollider);

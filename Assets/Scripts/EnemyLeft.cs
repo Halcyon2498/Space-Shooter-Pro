@@ -185,6 +185,19 @@ public class EnemyLeft : MonoBehaviour
             }
         }
 
+        if (other.tag == "Missle")
+        {
+            _player.addScore(10);
+            if (_shield == true)
+            {
+                Damage();
+            }
+            else
+            {
+                EnemyDestroySequence();
+            }
+        }
+
         if (other.tag == "MegaLaser")
         {
             _player.addScore(10);

@@ -112,7 +112,7 @@ public class SmartEnemy : MonoBehaviour
     {
         Debug.DrawRay(_castPoint.transform.position, (transform.up * _rayDistance), Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(_castPoint.transform.position, transform.up, 15);
+        RaycastHit2D hit = Physics2D.Raycast(_castPoint.transform.position, transform.up, 18);
 
         if (hit)
         {
@@ -146,6 +146,13 @@ public class SmartEnemy : MonoBehaviour
             _player.addScore(50);
             EnemyDestroySequence();
 
+        }
+
+        if(other.tag == "Missle")
+        {
+            Destroy(other.gameObject);
+            _player.addScore(50);
+            EnemyDestroySequence();
         }
 
         if (other.tag == "MegaLaser")

@@ -122,6 +122,7 @@ public class SpeedEnemy : MonoBehaviour
         EnemyDestroySequence();
     }
 
+
     private void EnemyDestroySequence()
     {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

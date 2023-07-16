@@ -11,8 +11,6 @@ public class FireBullet1 : MonoBehaviour
     [SerializeField]
     private float startAngle = 90f, endAngle = 270f;
 
-    private Vector2 bulletMoveDirection;
-
     void Start()
     {
         InvokeRepeating("Fire", 0f, 2f);

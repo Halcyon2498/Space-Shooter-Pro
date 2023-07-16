@@ -190,6 +190,19 @@ public class Enemy : MonoBehaviour
             }
 
         }
+        
+        if (other.tag == "Missle")
+        {
+            _player.addScore(10);
+            if (_shield == true)
+            {
+                Damage();
+            }
+            else
+            {
+                EnemyDestroySequence();
+            }
+        }
 
         if (other.tag == "MegaLaser")
         {
@@ -197,6 +210,8 @@ public class Enemy : MonoBehaviour
             _shieldVisualizer.SetActive(false);
             EnemyDestroySequence();         
         }
+
+        
 
     }
 

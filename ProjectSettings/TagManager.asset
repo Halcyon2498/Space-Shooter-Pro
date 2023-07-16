@@ -14,6 +14,7 @@ TagManager:
   - Hitbox
   - BossBullet1
   - EnemyMega
+  - Missle
   layers:
   - Default
   - TransparentFX

@@ -157,9 +157,13 @@ public class Enemy2 : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            _player.addScore(100);
             Damage();
 
+        }
+
+        if(other.tag == "Missle")
+        {
+            Damage();
         }
 
         if (other.tag == "MegaLaser")
@@ -175,6 +179,7 @@ public class Enemy2 : MonoBehaviour
     private void EnemyDestroySequence()
     {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        _player.addScore(100);
         _spawnManager._enemiesLeft--;
         movespeed = 0f;
         Destroy(this.gameObject);

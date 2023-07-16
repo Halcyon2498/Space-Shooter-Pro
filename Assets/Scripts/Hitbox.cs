@@ -29,6 +29,12 @@ public class Hitbox : MonoBehaviour
 
         }
 
+        if (other.tag == "Missle")
+        {
+            Destroy(this.boxCollider);
+            ramEnemy.LaserHit();
+        }
+
         if (other.tag == "MegaLaser")
         {
             Destroy(this.boxCollider);

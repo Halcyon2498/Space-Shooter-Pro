@@ -39,7 +39,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _currentWave = 0;
+        _currentWave = 4;
         _enemiesToSpawn = 0;
         if (_uiManager == null)
         {
@@ -61,8 +61,10 @@ public class SpawnManager : MonoBehaviour
 
     private void StartBossWave()
     {
+        _stopSpawn = false;
         _uiManager.UpdateBoss();
         Instantiate(_bossPrefab);
+        StartCoroutine(SpawnPowerUpRoutine());
     }
 
     private void StartSpawning()
@@ -105,7 +107,7 @@ public class SpawnManager : MonoBehaviour
 
         yield return new WaitForSeconds(4.0f);
 
-        while (_stopSpawn == false)
+        while (_stopSpawn == false && _currentWave != 5)
         {
             if (enemiesSpawned != _enemiesToSpawn)
             {
@@ -170,30 +172,48 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawn == false)
         {
-            Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
-            int randomNumber = Random.Range(0, 9);
-
-            if (randomNumber >= 0 && randomNumber <= 6)
+            if (_currentWave != 5)
             {
+                Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
+                int randomNumber = Random.Range(0, 9);
+
+
+                if (randomNumber >= 0 && randomNumber <= 6)
+                {
+                    int randomCommon = Random.Range(0, 5);
+                    GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
+                }
+                else if (randomNumber >= 7 && randomNumber <= 9)
+                {
+                    int randomRare = Random.Range(0, 3);
+                    GameObject _rarePowerup = Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
+                }
+                else
+                {
+                    Debug.LogError("No Valid Spawn");
+                }
+
+
+                yield return new WaitForSeconds(Random.Range(2, 5));
+            }
+            else if (_currentWave == 5)
+            {
+                Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
+
                 int randomCommon = Random.Range(0, 5);
                 GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
-            }
-            else if (randomNumber >= 7 && randomNumber <= 9)
-            {
-                int randomRare = Random.Range(0, 3);
-                GameObject _rarePowerup = Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogError("No Valid Spawn");
-            }
 
-
-            yield return new WaitForSeconds(Random.Range(2, 5));
+                yield return new WaitForSeconds(Random.Range(2, 5));
+            }
         }
     }
 
     public void OnPlayerDeath()
+    {
+        _stopSpawn = true;
+    }
+
+    public void OnBossDeath()
     {
         _stopSpawn = true;
     }

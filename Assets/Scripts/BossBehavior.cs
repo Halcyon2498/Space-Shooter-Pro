@@ -192,12 +192,18 @@ public class BossBehavior : MonoBehaviour
 
         }
 
+        if(other.tag == "Missle")
+        {
+            Damage();
+        }
+
     }
 
     private void EnemyDestroySequence()
     {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         _uiManager.Victory();
+        _spawnManager.OnBossDeath();
         Destroy(this.gameObject);
     }
 }

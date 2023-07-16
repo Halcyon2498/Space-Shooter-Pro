@@ -102,6 +102,9 @@ public class UIManager : MonoBehaviour
 
     public void UpdateBoss()
     {
+        _waveCounter.gameObject.SetActive(true);
+        _waveCounter.text = "Wave: 5";
+        StartCoroutine(WaveDown());
         _bossWave.gameObject.SetActive(true);
         StartCoroutine(BossFlicker());
     }
@@ -113,7 +116,7 @@ public class UIManager : MonoBehaviour
 
     public void Victory()
     {
-        _victory.gameObject.SetActive(false);
+        _victory.gameObject.SetActive(true);
         _finalScore.gameObject.SetActive(true);
         _finalScore.text = "Final Score: " + updateScore.ToString();
         _restartText.gameObject.SetActive(true);
