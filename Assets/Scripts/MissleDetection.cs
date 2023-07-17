@@ -5,11 +5,11 @@ using UnityEngine;
 public class MissleDetection : MonoBehaviour
 {
     [SerializeField]
-    private HomingMissle missle;
+    private HomingMissle _missle;
     void Start()
     {
-        missle = transform.GetComponentInParent<HomingMissle>();
-        if (missle == null)
+        _missle = transform.GetComponentInParent<HomingMissle>();
+        if (_missle == null)
         {
             Debug.Log("Parent not found");
         }
@@ -20,7 +20,7 @@ public class MissleDetection : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            missle.EnemyFound();
+            _missle.EnemyFound();
         }
     }
 }

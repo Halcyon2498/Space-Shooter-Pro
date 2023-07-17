@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628e3be1fbe6f2a49a789996f2888311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledBullet: {fileID: 5061867066332664171, guid: d0f32ec269155484391691a170cd88fc,
+  _pooledBullet: {fileID: 5061867066332664171, guid: d0f32ec269155484391691a170cd88fc,
     type: 3}
-  bulletContainer: {fileID: 698828263}
+  _bulletContainer: {fileID: 698828263}
 --- !u!1 &698828263
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +158,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 503745827
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 888827cac2db05f41832ff5ee7aa81bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class HomingMissle : MonoBehaviour
 {
-    private GameObject _enemy;
-    private int _speed = 10;
+    
     public bool enemyFound = false;
+    private int _speed = 10;
+    private GameObject _enemy;
     [SerializeField]
-    private GameObject hitbox;
+    private GameObject _hitbox;
     [SerializeField]
-    private GameObject detector;
-    [SerializeField]
-    private GameObject _explosionPrefab;
-    private bool isChasing = false;
+    private GameObject _detector;
+    private bool _isChasing = false;
 
-
-    void Start()
-    {
-   
-    }
 
     void Update()
     {
@@ -28,7 +22,7 @@ public class HomingMissle : MonoBehaviour
         {
             _enemy = FindClosestEnemy();
         }
-        if (_enemy != null && isChasing == true)
+        if (_enemy != null && _isChasing == true)
         {
             ChaseEnemy();
         }
@@ -77,7 +71,7 @@ public class HomingMissle : MonoBehaviour
 
     private void ChaseEnemy()
     {
-        if (isChasing == true)
+        if (_isChasing == true)
         {
             _speed = 15;
             transform.position = Vector3.MoveTowards(transform.position, _enemy.transform.position, _speed * Time.deltaTime);
@@ -94,7 +88,7 @@ public class HomingMissle : MonoBehaviour
 
     public void EnemyFound()
     {
-        isChasing = true;
+        _isChasing = true;
     }
 
     public void OnImpact()

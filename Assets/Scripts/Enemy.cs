@@ -13,42 +13,35 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Collider2D _boxCollider2D;
     [SerializeField]
-    private AudioSource _audioSource;
-    [SerializeField]
     private GameObject _explosionPrefab;
     [SerializeField]
     private GameObject _enemyLaser;
     [SerializeField]
     private float _fireRate = 3.0f;
     private float _canFire = -1;
-    private float sinCenterY;
+    private float _sinCenterY;
     [SerializeField]
     private float _amplitude = -2;
     [SerializeField]
     private float _frequency = 2;
     [SerializeField]
     private GameObject _shieldVisualizer;
-    private int _shieldHits = 0;
+    private int _shieldHits;
     private bool _shield = false;
     private SpawnManager _spawnManager;
     public Transform _castPoint;
     private bool _detectPower = false;
     private float _rayDistance = 12f;
-    private bool hasFired = false;
+    private bool _hasFired = false;
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _animator = transform.GetComponent<Animator>();
-        sinCenterY = transform.position.y;
+        _sinCenterY = transform.position.y;
         _shieldVisualizer.SetActive(false);
-
+        _enemySpeed = 3.0f;
 
         if (_player == null)
         {
@@ -67,9 +60,8 @@ public class Enemy : MonoBehaviour
             Debug.Log("Box Collider is null");
         }
 
-        _enemySpeed = 3.0f;
-
         int ifShield = Random.Range(0, 9);
+
         if (ifShield <= 2)
         {
             _shieldVisualizer.SetActive(true);
@@ -98,11 +90,11 @@ public class Enemy : MonoBehaviour
     void ShootPower()
     {
 
-        if (hasFired == false)
+        if (_hasFired == false)
         {
             Instantiate(_enemyLaser, transform.position + new Vector3(0, -1f, 0), Quaternion.identity);
             _detectPower = false;
-            hasFired = true;
+            _hasFired = true;
         }
     }
 
@@ -131,11 +123,11 @@ public class Enemy : MonoBehaviour
        
         float sin = Mathf.Sin(pos.x *_frequency) * _amplitude;
         pos.x -= _enemySpeed * Time.fixedDeltaTime;
-        pos.y = sinCenterY + sin;
+        pos.y = _sinCenterY + sin;
 
         transform.position = pos;
 
-        if (transform.position.x < -7.5f)
+        if (transform.position.x < -14.3f)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
@@ -191,18 +183,6 @@ public class Enemy : MonoBehaviour
 
         }
         
-        if (other.tag == "Missle")
-        {
-            _player.addScore(10);
-            if (_shield == true)
-            {
-                Damage();
-            }
-            else
-            {
-                EnemyDestroySequence();
-            }
-        }
 
         if (other.tag == "MegaLaser")
         {

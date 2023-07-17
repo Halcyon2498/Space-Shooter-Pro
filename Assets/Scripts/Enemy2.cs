@@ -7,7 +7,7 @@ public class Enemy2 : MonoBehaviour
     [SerializeField]
     Transform[] waypoints;
     [SerializeField]
-    float movespeed = 2f;
+    private float _moveSpeed = 2f;
     [SerializeField]
     private Player _player;
     [SerializeField]
@@ -32,13 +32,13 @@ public class Enemy2 : MonoBehaviour
     private float _burstCooldown = 4.0f;
     private float _burstTimer = 1f;
     private int _laserCount = 10;
-    int waypointIndex = 0;
+    private int _waypointIndex = 0;
     private int _lives = 6;
 
-    // Start is called before the first frame update
+
     void Start()
     {
-        transform.position = waypoints[waypointIndex].transform.position;
+        transform.position = waypoints[_waypointIndex].transform.position;
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _explodeSound;
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -72,25 +72,23 @@ public class Enemy2 : MonoBehaviour
         StartCoroutine(FiringBurst());
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
         Move();
     }
 
 
-   
-
     void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, movespeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, waypoints[_waypointIndex].transform.position, _moveSpeed * Time.deltaTime);
 
-        if (transform.position == waypoints[waypointIndex].transform.position)
+        if (transform.position == waypoints[_waypointIndex].transform.position)
         {
-            waypointIndex += 1;
+            _waypointIndex += 1;
         }
 
-        if (waypointIndex == waypoints.Length)
+        if (_waypointIndex == waypoints.Length)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
@@ -126,7 +124,7 @@ public class Enemy2 : MonoBehaviour
         yield return new WaitForSeconds(_burstCooldown);
         float waitForNext = 1f / _laserCount;
 
-        while(movespeed > 0)
+        while(_moveSpeed > 0)
         {
             for(int i = 0; i < _laserCount; i++)
             {
@@ -161,10 +159,6 @@ public class Enemy2 : MonoBehaviour
 
         }
 
-        if(other.tag == "Missle")
-        {
-            Damage();
-        }
 
         if (other.tag == "MegaLaser")
         {
@@ -181,7 +175,7 @@ public class Enemy2 : MonoBehaviour
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         _player.addScore(100);
         _spawnManager._enemiesLeft--;
-        movespeed = 0f;
+        _moveSpeed = 0f;
         Destroy(this.gameObject);
     }
 

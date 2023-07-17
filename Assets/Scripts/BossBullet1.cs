@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BossBullet1 : MonoBehaviour
 {
-    private Vector3 bulletDir;
-    private float bulletSpeed;
+    private Vector3 _bulletDir;
+    private float _bulletSpeed;
 
 
     private void OnEnable()
@@ -15,18 +15,18 @@ public class BossBullet1 : MonoBehaviour
 
     void Start()
     {
-        bulletSpeed = 5;
+        _bulletSpeed = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(bulletDir * bulletSpeed * Time.deltaTime);
+        transform.Translate(_bulletDir * _bulletSpeed * Time.deltaTime);
     }
 
     public void SetBulDirection(Vector3 dir)
     {
-        bulletDir = dir;
+        _bulletDir = dir;
     }
 
     private void OnDestroy()

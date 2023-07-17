@@ -20,14 +20,14 @@ public class RamEnemy : MonoBehaviour
     [SerializeField]
     private AudioClip _alertSound;
     [SerializeField]
-    private GameObject hitbox;
+    private GameObject _hitbox;
     [SerializeField]
-    private GameObject detector;
+    private GameObject _detector;
     private bool _isChasing = false;
     [SerializeField]
-    private float rotationModifier = 90f;
+    private float _rotationModifier = 90f;
     [SerializeField]
-    private float turnSpeed = 20f;
+    private float _turnSpeed = 20f;
     
 
 
@@ -55,7 +55,7 @@ public class RamEnemy : MonoBehaviour
 
     void Update()
     {
-        if (_isChasing == false)
+        if (_isChasing == false || _player == null)
         {
             transform.Translate(Vector3.up * _enemySpeed * Time.deltaTime);
         }
@@ -77,9 +77,9 @@ public class RamEnemy : MonoBehaviour
         if(_isChasing == true)
         {
             Vector3 vectorToTarget = _player.transform.position - transform.position;
-            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - rotationModifier;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - _rotationModifier;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * turnSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _turnSpeed);
         }
     }
 

@@ -76,8 +76,6 @@ public class Player : MonoBehaviour
     private int _barrageCount = 5;
 
 
-
-    // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -86,6 +84,7 @@ public class Player : MonoBehaviour
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
         _megalaserPrefab.SetActive(false);
+ 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -121,23 +120,11 @@ public class Player : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
         CalculateAnim();
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        {
-            FireLaser();
-        }
-
-        if (Input.GetKeyDown(KeyCode.X) && _barrageCount > 0)
-        {
-            _barrageCount--;
-            _uiManager.UpdateMissiles(_barrageCount);
-            StartCoroutine(MissleBarrage());
-        }
-
+        FireWeapons();
     }
 
     void CalculateAnim()
@@ -227,6 +214,21 @@ public class Player : MonoBehaviour
         }
         _thrusterGauge.value = _maxEnergy;
 
+    }
+
+    void FireWeapons()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        {
+            FireLaser();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X) && _barrageCount > 0)
+        {
+            _barrageCount--;
+            _uiManager.UpdateMissiles(_barrageCount);
+            StartCoroutine(MissleBarrage());
+        }
     }
 
 
@@ -457,6 +459,7 @@ public class Player : MonoBehaviour
 
     public void MegaLaserActive()
     {
+        _megalaserPrefab.SetActive(true);
         StartCoroutine(MegaCooldown());
         _audioSource.clip = _powerupSound;
         _audioSource.PlayOneShot(_powerupSound, 1);
@@ -464,9 +467,7 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator MegaCooldown()
-    {
-        _megalaserPrefab.SetActive(true);
-        _audioSource.clip = _megaSound;
+    { 
         _audioSource.PlayOneShot(_megaSound, 1);
         yield return new WaitForSeconds(5.0f);
         _megalaserPrefab.SetActive(false);

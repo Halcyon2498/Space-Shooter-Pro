@@ -49,13 +49,38 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-
-        if (_startWave == true && _enemyContainer.transform.childCount == 0)
+        if (_currentWave > 0)
         {
-            StopCoroutine(SpawnPowerUpRoutine());
-            _enemiesLeft = 0;
-            EndWave();
+            if (_startWave == true && _enemyContainer.transform.childCount == 0)
+            {
+                StopCoroutine(SpawnPowerUpRoutine());
+                _enemiesLeft = 0;
+                EndWave();
+            }
         }
+
+    }
+
+
+    public void BeginWave()
+    {
+        _currentWave += 1;
+        _enemiesToSpawn += 10;
+        _uiManager.UpdateWaves(_currentWave);
+        _enemiesLeft = _enemiesToSpawn;
+        _startWave = false;
+        _stopSpawn = false;
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerUpRoutine());
+    }
+    private void StartWave()
+    {
+        _uiManager.UpdateWaves(_currentWave); 
+        _enemiesLeft = _enemiesToSpawn;
+        _startWave = false;
+        _stopSpawn = false;
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerUpRoutine());
 
     }
 
@@ -65,24 +90,6 @@ public class SpawnManager : MonoBehaviour
         _uiManager.UpdateBoss();
         Instantiate(_bossPrefab);
         StartCoroutine(SpawnPowerUpRoutine());
-    }
-
-    private void StartSpawning()
-    {
-        _enemiesLeft = _enemiesToSpawn;
-        _startWave = false;
-        _stopSpawn = false;
-        StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerUpRoutine()); 
-        
-    }
-
-    private void StartWave()
-    {
-        _uiManager.UpdateWaves(_currentWave); 
-        _enemiesLeft = _enemiesToSpawn;             
-        StartSpawning();
-
     }
 
     public void EndWave()
@@ -111,8 +118,8 @@ public class SpawnManager : MonoBehaviour
         {
             if (enemiesSpawned != _enemiesToSpawn)
             {
-                Vector3 postLoc = new Vector3(14.5f, Random.Range(2.0f, 8.0f), 0);
-                Vector3 postLoc2 = new Vector3(-14.5f, Random.Range(2.0f, 8.0f), 0);
+                Vector3 postLoc = new Vector3(14.5f, Random.Range(2.0f, 7.0f), 0);
+                Vector3 postLoc2 = new Vector3(-14.5f, Random.Range(2.0f, 7.0f), 0);
                 Vector3 postLoc3 = new Vector3(Random.Range(-10f, 10f), 9f, 0);
                 int randomNumber = Random.Range(0, 22);
                 if (randomNumber >= 0 && randomNumber <= 7)
@@ -140,14 +147,14 @@ public class SpawnManager : MonoBehaviour
                     GameObject newEnemy5 = Instantiate(_speedEnemyPrefab);
                     newEnemy5.transform.parent = _enemyContainer.transform;
                 }
-                else if (_currentWave >= 2 && randomNumber == 21)
+                else if (_currentWave >= 2 && randomNumber >= 21)
                 {
                     GameObject newEnemy6 = Instantiate(_enemy2Prefab);
                     newEnemy6.transform.parent = _enemyContainer.transform;
                 }
                 else
                 {
-                    Debug.Log("Invalid ENemy");
+                    Debug.Log("Empty Spawn");
                 }
 
                 enemiesSpawned++;
@@ -181,12 +188,12 @@ public class SpawnManager : MonoBehaviour
                 if (randomNumber >= 0 && randomNumber <= 6)
                 {
                     int randomCommon = Random.Range(0, 5);
-                    GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
+                    Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
                 }
                 else if (randomNumber >= 7 && randomNumber <= 9)
                 {
                     int randomRare = Random.Range(0, 3);
-                    GameObject _rarePowerup = Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
+                    Instantiate(_rarePowerups[randomRare], powerLoc, Quaternion.identity);
                 }
                 else
                 {
@@ -199,9 +206,8 @@ public class SpawnManager : MonoBehaviour
             else if (_currentWave == 5)
             {
                 Vector3 powerLoc = new Vector3(Random.Range(-12.1f, 12.1f), 13.4f, 0);
-
                 int randomCommon = Random.Range(0, 5);
-                GameObject _commonPowerup = Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
+                Instantiate(_commonPowerups[randomCommon], powerLoc, Quaternion.identity);
 
                 yield return new WaitForSeconds(Random.Range(2, 5));
             }

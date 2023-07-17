@@ -6,13 +6,13 @@ public class RapidFire : MonoBehaviour
 {
     private float _laserspeed = 10.0f;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
 

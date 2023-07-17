@@ -5,7 +5,7 @@ using UnityEngine;
 public class SmartEnemy : MonoBehaviour
 {
     [SerializeField]
-    Transform[] waypoints;
+    private Transform[] _waypoints;
     [SerializeField]
     private float _enemySpeed = 3.0f;
     [SerializeField]
@@ -28,14 +28,14 @@ public class SmartEnemy : MonoBehaviour
     [SerializeField]
     private float rotationModifier = 90f;
     [SerializeField]
-    private float turnSpeed = 20f;
+    private float _turnSpeed = 20f;
     private bool _detectPlayer = false;
     private float _rayDistance = 15f;
-    int waypointIndex = 0;
+    private int _waypointIndex = 0;
 
     void Start()
     {
-        transform.position = waypoints[waypointIndex].transform.position;
+        transform.position = _waypoints[_waypointIndex].transform.position;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
@@ -70,22 +70,25 @@ public class SmartEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 vectorToTarget = _player.transform.position - transform.position;
-        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - rotationModifier;
-        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * turnSpeed);
+        if (_player != null)
+        {
+            Vector3 vectorToTarget = _player.transform.position - transform.position;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - rotationModifier;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _turnSpeed);
+        }
     }
 
     void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, _enemySpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _waypoints[_waypointIndex].transform.position, _enemySpeed * Time.deltaTime);
 
-        if (transform.position == waypoints[waypointIndex].transform.position)
+        if (transform.position == _waypoints[_waypointIndex].transform.position)
         {
-            waypointIndex += 1;
+            _waypointIndex += 1;
         }
 
-        if (waypointIndex == waypoints.Length)
+        if (_waypointIndex == _waypoints.Length)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
@@ -123,6 +126,10 @@ public class SmartEnemy : MonoBehaviour
 
             }
         }
+        else
+        {
+            return;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -146,13 +153,6 @@ public class SmartEnemy : MonoBehaviour
             _player.addScore(50);
             EnemyDestroySequence();
 
-        }
-
-        if(other.tag == "Missle")
-        {
-            Destroy(other.gameObject);
-            _player.addScore(50);
-            EnemyDestroySequence();
         }
 
         if (other.tag == "MegaLaser")

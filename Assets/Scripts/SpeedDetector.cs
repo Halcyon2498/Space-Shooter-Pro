@@ -5,18 +5,18 @@ using UnityEngine;
 public class SpeedDetector : MonoBehaviour
 {
     [SerializeField]
-    private SpeedEnemy speedEnemy
-        ;
+    private SpeedEnemy _speedEnemy;
+        
     void Start()
     {
-        speedEnemy = transform.GetComponentInParent<SpeedEnemy>();
+        _speedEnemy = transform.GetComponentInParent<SpeedEnemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {
-            speedEnemy.DodgeLaser();
+            _speedEnemy.DodgeLaser();
         }
     }
 }

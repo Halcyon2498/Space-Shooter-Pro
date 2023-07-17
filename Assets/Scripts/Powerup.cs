@@ -12,11 +12,8 @@ public class Powerup : MonoBehaviour
     private GameObject _explosionPrefab;
     [SerializeField]
     private int powerupID;
-
     public Transform _playerTransform;
 
-
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -25,7 +22,7 @@ public class Powerup : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+
     void Update()
     {
 

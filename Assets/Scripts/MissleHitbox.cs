@@ -5,14 +5,14 @@ using UnityEngine;
 public class MissleHitbox : MonoBehaviour
 {
     [SerializeField]
-    private HomingMissle missle;
+    private HomingMissle _missle;
     [SerializeField]
-    private BoxCollider2D boxCollider;
+    private BoxCollider2D _boxCollider;
 
     void Start()
     {
-        missle = transform.GetComponentInParent<HomingMissle>();
-        if(missle == null)
+        _missle = transform.GetComponentInParent<HomingMissle>();
+        if(_missle == null)
         {
             Debug.Log("Parent not found");
         }
@@ -22,8 +22,8 @@ public class MissleHitbox : MonoBehaviour
     {
         if(other.tag == "Enemy")
         {
-            Destroy(this.boxCollider);
-            missle.OnImpact();
+            Destroy(this._boxCollider);
+            _missle.OnImpact();
         }
     }
 }

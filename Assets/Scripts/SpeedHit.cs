@@ -5,40 +5,33 @@ using UnityEngine;
 public class SpeedHit : MonoBehaviour
 {
     [SerializeField]
-    private SpeedEnemy speedEnemy;
+    private SpeedEnemy _speedEnemy;
     [SerializeField]
-    private BoxCollider2D boxCollider;
+    private BoxCollider2D _boxCollider;
     void Start()
     {
-        speedEnemy = transform.GetComponentInParent<SpeedEnemy>();
+        _speedEnemy = transform.GetComponentInParent<SpeedEnemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            Destroy(this.boxCollider);
-            speedEnemy.PlayerHit();
+            Destroy(this._boxCollider);
+            _speedEnemy.PlayerHit();
         }
 
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            Destroy(this.boxCollider);
-            speedEnemy.LaserHit();
-
-        }
-
-        if (other.tag == "Missle")
-        { 
-            Destroy(this.boxCollider);
-            speedEnemy.LaserHit();
+            Destroy(this._boxCollider);
+            _speedEnemy.LaserHit();
         }
 
         if (other.tag == "MegaLaser")
         {
-            Destroy(this.boxCollider);
-            speedEnemy.MegaHit();
+            Destroy(this._boxCollider);
+            _speedEnemy.MegaHit();
         }
     }
 }

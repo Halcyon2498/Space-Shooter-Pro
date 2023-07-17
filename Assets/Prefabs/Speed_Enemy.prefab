@@ -326,14 +326,14 @@ MonoBehaviour:
   _turnDegrees: 20
   _explosionPrefab: {fileID: 6133394056288003120, guid: 9c1df46f67cd62e48a7a76813c1e6356,
     type: 3}
-  waypoints:
+  _waypoints:
   - {fileID: 4060916830896550608, guid: 850e4e409a4972644972570abd56d45d, type: 3}
   - {fileID: 5426943743934827588, guid: f186d74394676b84e9b147e4b244c761, type: 3}
   - {fileID: 7591255359789120076, guid: c8f80fd3117ff204a91147cab8fab039, type: 3}
   - {fileID: 3880273086203267412, guid: fe47ec8e377a79a4aba6f1e75d289b34, type: 3}
   - {fileID: 7308569052617510680, guid: b50065f7a7fae524a862a55fe91bca83, type: 3}
   - {fileID: 143979559116750005, guid: 1d6246fef80a5414e98cd888379016c4, type: 3}
-  movespeed: 10
+  _moveSpeed: 10
   _player: {fileID: 0}
   _audioSource: {fileID: 0}
 --- !u!1001 &4124816272303622232

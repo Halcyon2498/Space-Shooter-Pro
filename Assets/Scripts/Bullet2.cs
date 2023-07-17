@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet2 : MonoBehaviour
 {
-    private float _laserspeed = 10.0f;
+    private float _laserSpeed = 10.0f;
 
     void Start()
     {
@@ -14,7 +14,7 @@ public class Bullet2 : MonoBehaviour
     void Update()
     {
 
-        transform.Translate(Vector3.down * _laserspeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
 
         if (transform.position.y <= -9f)
         {

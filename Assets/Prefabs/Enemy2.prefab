@@ -363,6 +363,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right_engine
       objectReference: {fileID: 0}
+    - target: {fileID: 3658190229124440979, guid: ca6a2fc69b03f964daaf7a387b0c84fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca6a2fc69b03f964daaf7a387b0c84fc, type: 3}
 --- !u!1 &3727647237427808047 stripped
@@ -388,6 +393,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Left_engine
+      objectReference: {fileID: 0}
+    - target: {fileID: 698173772655538826, guid: 66380ce249dc9be4b8ea789b4d2d1917,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 698173772655538827, guid: 66380ce249dc9be4b8ea789b4d2d1917,
         type: 3}

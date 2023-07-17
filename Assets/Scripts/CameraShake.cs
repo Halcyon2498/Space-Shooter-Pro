@@ -9,8 +9,6 @@ public class CameraShake : MonoBehaviour
     private bool _cameraShake = false;
     private float _shakeAmount = 0.05f;
 
-
-    // Update is called once per frame
     void Update()
     {
         IfDamaged();

@@ -5,11 +5,11 @@ using UnityEngine;
 public class FireBullet1 : MonoBehaviour
 {
     [SerializeField]
-    private int bulletsAmount = 10;
+    private int _bulletsAmount = 10;
     
 
     [SerializeField]
-    private float startAngle = 90f, endAngle = 270f;
+    private float _startAngle = 90f, _endAngle = 270f;
 
     void Start()
     {
@@ -18,10 +18,10 @@ public class FireBullet1 : MonoBehaviour
 
     private void Fire()
     {
-        float angleStep = (endAngle - startAngle) / bulletsAmount;
-        float angle = startAngle;
+        float angleStep = (_endAngle - _startAngle) / _bulletsAmount;
+        float angle = _startAngle;
 
-        for(int i = 0; i < bulletsAmount + 1; i++)
+        for(int i = 0; i < _bulletsAmount + 1; i++)
         {
             float bulDirX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
             float bulDirY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);

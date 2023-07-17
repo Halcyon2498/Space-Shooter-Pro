@@ -6,10 +6,10 @@ public class BulletPool : MonoBehaviour
 {
     public static BulletPool bulletPoolInstance;
     [SerializeField]
-    private GameObject pooledBullet;
+    private GameObject _pooledBullet;
     [SerializeField]
-    private GameObject bulletContainer;
-    private bool noMoreBullets = true;
+    private GameObject _bulletContainer;
+    private bool _noMoreBullets = true;
 
     private List<GameObject> bullets;
 
@@ -37,10 +37,10 @@ public class BulletPool : MonoBehaviour
             }
         }
 
-        if (noMoreBullets)
+        if (_noMoreBullets)
         {
-            GameObject bul = Instantiate(pooledBullet);
-            bul.transform.parent = bulletContainer.transform;
+            GameObject bul = Instantiate(_pooledBullet);
+            bul.transform.parent = _bulletContainer.transform;
             bul.SetActive(false);
             bullets.Add(bul);
             return bul;

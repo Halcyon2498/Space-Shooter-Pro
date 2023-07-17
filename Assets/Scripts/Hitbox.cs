@@ -5,40 +5,34 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
     [SerializeField]
-    private RamEnemy ramEnemy;
+    private RamEnemy _ramEnemy;
     [SerializeField]
-    private BoxCollider2D boxCollider;
+    private BoxCollider2D _boxCollider;
     void Start()
     {
-        ramEnemy = transform.GetComponentInParent<RamEnemy>();
+        _ramEnemy = transform.GetComponentInParent<RamEnemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            Destroy(this.boxCollider);
-            ramEnemy.PlayerHit();
+            Destroy(this._boxCollider);
+            _ramEnemy.PlayerHit();
         }
 
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            Destroy(this.boxCollider);
-            ramEnemy.LaserHit();
+            Destroy(this._boxCollider);
+            _ramEnemy.LaserHit();
 
-        }
-
-        if (other.tag == "Missle")
-        {
-            Destroy(this.boxCollider);
-            ramEnemy.LaserHit();
         }
 
         if (other.tag == "MegaLaser")
         {
-            Destroy(this.boxCollider);
-            ramEnemy.MegaHit();
+            Destroy(this._boxCollider);
+            _ramEnemy.MegaHit();
         }
     }
 }

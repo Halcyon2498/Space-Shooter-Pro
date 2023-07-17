@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0817397039ac442a5613dc000055d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
+  _waypoints:
   - {fileID: 1387285202049835383, guid: 7b9f180ba22311644997e2510541be7d, type: 3}
   - {fileID: 3238671861833642113, guid: 385f0b68e50aeda448174e3eed9739ea, type: 3}
   - {fileID: 3389265769553401075, guid: bdb72d966a69d434ab8f67981684e155, type: 3}
@@ -117,7 +117,7 @@ MonoBehaviour:
   _fireRate: 3
   _castPoint: {fileID: 4564171762116519089}
   rotationModifier: 90
-  turnSpeed: 20
+  _turnSpeed: 20
 --- !u!50 &3848810670872255318
 Rigidbody2D:
   serializedVersion: 4

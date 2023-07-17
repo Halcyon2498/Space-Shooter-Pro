@@ -11,19 +11,19 @@ public class SpeedEnemy : MonoBehaviour
     private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
     [SerializeField]
-    Transform[] waypoints;
+    private Transform[] _waypoints;
     [SerializeField]
-    float movespeed = 10f;
+    private float _moveSpeed = 10f;
     [SerializeField]
     private Player _player;
     [SerializeField]
     private AudioSource _audioSource;
-    int waypointIndex = 0;
+    private int _waypointIndex = 0;
 
 
     void Start()
     {
-        transform.position = waypoints[waypointIndex].transform.position;
+        transform.position = _waypoints[_waypointIndex].transform.position;
         _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -39,7 +39,6 @@ public class SpeedEnemy : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Rotate(new Vector3(0, 0, _turnDegrees) * Time.deltaTime);
@@ -49,14 +48,14 @@ public class SpeedEnemy : MonoBehaviour
 
     void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, movespeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _waypoints[_waypointIndex].transform.position, _moveSpeed * Time.deltaTime);
 
-        if (transform.position == waypoints[waypointIndex].transform.position)
+        if (transform.position == _waypoints[_waypointIndex].transform.position)
         {
-            waypointIndex += 1;
+            _waypointIndex += 1;
         }
 
-        if (waypointIndex == waypoints.Length)
+        if (_waypointIndex == _waypoints.Length)
         {
             Destroy(this.gameObject);
             _spawnManager._enemiesLeft--;
@@ -127,7 +126,7 @@ public class SpeedEnemy : MonoBehaviour
     {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         _spawnManager._enemiesLeft--;
-        movespeed = 0f;
+        _moveSpeed = 0f;
         Destroy(this.gameObject);
     }
 }

@@ -35,19 +35,21 @@ public class UIManager : MonoBehaviour
     private Text _victory;
     [SerializeField]
     private Text _finalScore;
-    private int updateScore = 0;
+    private int _updateScore = 0;
+    private bool _canRestart;
 
 
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _ammoCounter.text = "Ammo: " + 30 + "/30";
         _restartText.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _waveCounter.gameObject.SetActive(false);
         _bossWave.gameObject.SetActive(false);
         _victory.gameObject.SetActive(false);
-        _finalScore.gameObject.SetActive(false);
-        _ammoCounter.text = "Ammo: " + 30 + "/30";
+        _finalScore.gameObject.SetActive(false);      
+
         _thrusterGauge = GetComponentInChildren<Slider>();
         _thrusterColor = _thrusterGauge.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
 
@@ -90,7 +92,7 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int _playerScore)
     {
         _scoreText.text = "Score: " + _playerScore.ToString();
-        updateScore = _playerScore;
+        _updateScore = _playerScore;
     }
 
     public void UpdateLives(int currentLives)
@@ -118,8 +120,8 @@ public class UIManager : MonoBehaviour
     {
         _victory.gameObject.SetActive(true);
         _finalScore.gameObject.SetActive(true);
-        _finalScore.text = "Final Score: " + updateScore.ToString();
-        _restartText.gameObject.SetActive(true);
+        _finalScore.text = "Final Score: " + _updateScore.ToString();
+        RestartLevelText();
     }
 
     public void RefillMissles()
@@ -191,13 +193,14 @@ public class UIManager : MonoBehaviour
     public void RestartLevelText()
     {
         _restartText.gameObject.SetActive(true);
+        _canRestart = true;
     }
 
     public void Update()
     {
         GaugeColor();
 
-        if (_restartText == true)
+        if (_canRestart == true)
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
